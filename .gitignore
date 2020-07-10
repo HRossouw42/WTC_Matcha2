@@ -147,3 +147,6 @@ dist
 
 #MAC
 .DS_Store
+
+#backend
+backend/build

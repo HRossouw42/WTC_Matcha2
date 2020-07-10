@@ -1,0 +1,48 @@
+{
+  "name": "wtc_matcha",
+  "version": "1.0.0",
+  "description": "It's Match. A matchmaking dating website for a WeThinkCode_ webmodule project",
+  "main": "index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "migrate:make": "knex migrate:make",
+    "migrate:latest": "knex migrate:latest",
+    "start": "node build/src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HRossouw42/WTC_Matcha.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HRossouw42/WTC_Matcha/issues"
+  },
+  "homepage": "https://github.com/HRossouw42/WTC_Matcha#readme",
+  "dependencies": {
+    "@koa/cors": "^2.2.3",
+    "@koa/router": "latest",
+    "@types/bcrypt": "^3.0.0",
+    "@types/koa": "^2.11.2",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-joi-router": "^5.2.3",
+    "@types/koa__cors": "^2.2.3",
+    "@types/koa__router": "^8.0.2",
+    "bcrypt": "^3.0.6",
+    "knex": "^0.21.1",
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-joi-router": "^6.0.2",
+    "koa-router": "^9.1.0",
+    "sqlite3": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.25",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.9.6"
+  }
+}
