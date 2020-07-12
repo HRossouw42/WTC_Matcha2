@@ -66,11 +66,18 @@ export function configureFakeBackend() {
 
         return ok({
           id: user.id,
+          role: user.role,
           email: user.email,
-          title: user.title,
           firstName: user.firstName,
           lastName: user.lastName,
-          role: user.role,
+          age: user.age,
+          smoking: user.smoking,
+          drinking: user.drinking,
+          religion: user.religion,
+          pets: user.pets,
+          children: user.children,
+          bio: user.bio,
+          location: user.location,
           jwtToken: generateJwtToken(user),
         });
       }
@@ -93,11 +100,18 @@ export function configureFakeBackend() {
 
         return ok({
           id: user.id,
+          role: user.role,
           email: user.email,
-          title: user.title,
           firstName: user.firstName,
           lastName: user.lastName,
-          role: user.role,
+          age: user.age,
+          smoking: user.smoking,
+          drinking: user.drinking,
+          religion: user.religion,
+          pets: user.pets,
+          children: user.children,
+          bio: user.bio,
+          location: user.location,
           jwtToken: generateJwtToken(user),
         });
       }
@@ -315,11 +329,18 @@ export function configureFakeBackend() {
 
         return ok({
           id: user.id,
+          role: user.role,
           email: user.email,
-          title: user.title,
           firstName: user.firstName,
           lastName: user.lastName,
-          role: user.role,
+          age: user.age,
+          smoking: user.smoking,
+          drinking: user.drinking,
+          religion: user.religion,
+          pets: user.pets,
+          children: user.children,
+          bio: user.bio,
+          location: user.location,
         });
       }
 

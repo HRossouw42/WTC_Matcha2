@@ -1,3 +1,5 @@
+//TODO: Link update with services
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -10,14 +12,23 @@ function Update({ history }) {
   const initialValues = {
     firstName: user.firstName,
     lastName: user.lastName,
+    age: user.age,
     email: user.email,
+    smoking: user.smoking,
+    drinking: user.drinking,
+    religion: user.religion,
+    pets: user.pets,
+    children: user.children,
+    bio: user.bio,
     password: '',
     confirmPassword: '',
   };
 
+  //TODO: bio text input validation
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required('First Name is required'),
     lastName: Yup.string().required('Last Name is required'),
+    age: Yup.number().required('Age is required to be a number'),
     email: Yup.string().email('Email is invalid').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: Yup.string()
@@ -28,6 +39,7 @@ function Update({ history }) {
   });
 
   function onSubmit(fields, { setStatus, setSubmitting }) {
+    // console.log(fields);
     setStatus();
     accountService
       .update(user.id, fields)
@@ -96,6 +108,22 @@ function Update({ history }) {
                 className='invalid-feedback'
               />
             </div>
+            <div className='form-group col-1'>
+              <label>Age</label>
+              <Field
+                name='age'
+                type='number'
+                className={
+                  'form-control' +
+                  (errors.age && touched.age ? ' is-invalid' : '')
+                }
+              />
+              <ErrorMessage
+                name='age'
+                component='div'
+                className='invalid-feedback'
+              />
+            </div>
           </div>
           {/* Email */}
           <div className='form-group'>
@@ -114,9 +142,9 @@ function Update({ history }) {
               className='invalid-feedback'
             />
           </div>
+          {/* Passwords */}
           <h3 className='pt-3'>Change Password</h3>
           <p>Leave blank to keep the same password</p>
-          {/* Passwords */}
           <div className='form-row'>
             <div className='form-group col'>
               <label>Password</label>
@@ -154,15 +182,16 @@ function Update({ history }) {
             </div>
           </div>
           {/* Tags */}
+          <h1>Interests</h1>
           <div className='form-row'>
-            <div className='form-group col-1'>
+            <div className='form-group col-2'>
               <label>Smoking?</label>
               <Field
-                name='Smoking'
+                name='smoking'
                 as='select'
                 className={
                   'form-control' +
-                  (errors.title && touched.title ? ' is-invalid' : '')
+                  (errors.smoking && touched.smoking ? ' is-invalid' : '')
                 }
               >
                 <option value=''></option>
@@ -170,19 +199,19 @@ function Update({ history }) {
                 <option value='No'>No</option>
               </Field>
               <ErrorMessage
-                name='title'
+                name='smoking'
                 component='div'
                 className='invalid-feedback'
               />
             </div>
-            <div className='form-group col-1'>
+            <div className='form-group col-2'>
               <label>Drinking?</label>
               <Field
-                name='Drinking'
+                name='drinking'
                 as='select'
                 className={
                   'form-control' +
-                  (errors.title && touched.title ? ' is-invalid' : '')
+                  (errors.drinking && touched.drinking ? ' is-invalid' : '')
                 }
               >
                 <option value=''></option>
@@ -190,19 +219,19 @@ function Update({ history }) {
                 <option value='No'>No</option>
               </Field>
               <ErrorMessage
-                name='title'
+                name='drinking'
                 component='div'
                 className='invalid-feedback'
               />
             </div>
-            <div className='form-group col-1'>
+            <div className='form-group col-2'>
               <label>Religious?</label>
               <Field
-                name='Religious'
+                name='religion'
                 as='select'
                 className={
                   'form-control' +
-                  (errors.title && touched.title ? ' is-invalid' : '')
+                  (errors.religion && touched.religion ? ' is-invalid' : '')
                 }
               >
                 <option value=''></option>
@@ -210,19 +239,19 @@ function Update({ history }) {
                 <option value='No'>No</option>
               </Field>
               <ErrorMessage
-                name='title'
+                name='religion'
                 component='div'
                 className='invalid-feedback'
               />
             </div>
-            <div className='form-group col-1'>
+            <div className='form-group col-2'>
               <label>Pets?</label>
               <Field
-                name='Pets'
+                name='pets'
                 as='select'
                 className={
                   'form-control' +
-                  (errors.title && touched.title ? ' is-invalid' : '')
+                  (errors.pets && touched.pets ? ' is-invalid' : '')
                 }
               >
                 <option value=''></option>
@@ -230,19 +259,19 @@ function Update({ history }) {
                 <option value='No'>No</option>
               </Field>
               <ErrorMessage
-                name='title'
+                name='pets'
                 component='div'
                 className='invalid-feedback'
               />
             </div>
-            <div className='form-group col-1'>
+            <div className='form-group col-2'>
               <label>Children?</label>
               <Field
-                name='Children'
+                name='children'
                 as='select'
                 className={
                   'form-control' +
-                  (errors.title && touched.title ? ' is-invalid' : '')
+                  (errors.children && touched.children ? ' is-invalid' : '')
                 }
               >
                 <option value=''></option>
@@ -250,11 +279,27 @@ function Update({ history }) {
                 <option value='No'>No</option>
               </Field>
               <ErrorMessage
-                name='title'
+                name='children'
                 component='div'
                 className='invalid-feedback'
               />
             </div>
+          </div>
+          <div className='form-group'>
+            <label>Write a short bio about yourself</label>
+            <Field
+              name='bio'
+              type='text'
+              className={
+                'form-control' +
+                (errors.bio && touched.bio ? ' is-invalid' : '')
+              }
+            />
+            <ErrorMessage
+              name='bio'
+              component='div'
+              className='invalid-feedback'
+            />
           </div>
           {/* Submit Buttons */}
           <div className='form-group'>
