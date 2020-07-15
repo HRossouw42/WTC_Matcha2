@@ -45,8 +45,8 @@ function UsersList({ match }) {
 
   //sorting
   // const [items, requestSort] = useSortableData(null);
-  const [sortedField, setSortedField] = useState(null);
-  const [sortDirection, setSortDirection] = useState(null);
+  let sortDirection = 'ascending';
+  const [sortedField, setSortedField] = useState(sortDirection);
 
   useEffect(() => {
     accountService
@@ -79,18 +79,24 @@ function UsersList({ match }) {
 
   function requestSort(key) {
     let sortedUsers = users;
+    let direction = 'ascending';
+
+    if (sortedField.key === key && sortedField.direction === 'ascending') {
+      direction = 'descending';
+    }
 
     sortedUsers.sort((a, b) => {
       if (a[key] < b[key]) {
-        return -1;
+        return sortedField.direction === 'ascending' ? -1 : 1;
       }
       if (a[key] > b[key]) {
-        return 1;
+        return sortedField.direction === 'ascending' ? 1 : -1;
       }
       return 0;
     });
+
     setUsers(sortedUsers);
-    setSortedField(key);
+    setSortedField({ key, direction });
   }
 
   return (
