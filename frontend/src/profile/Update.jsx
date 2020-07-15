@@ -14,6 +14,8 @@ function Update({ history }) {
     lastName: user.lastName,
     age: user.age,
     email: user.email,
+    gender: user.gender,
+    orientation: user.orientation,
     smoking: user.smoking,
     drinking: user.drinking,
     religion: user.religion,
@@ -181,8 +183,53 @@ function Update({ history }) {
               />
             </div>
           </div>
+          <h1>Orientation</h1>
+          <div className='form-row'>
+            <div className='form-group col-2'>
+              <label>Gender</label>
+              <Field
+                name='gender'
+                as='select'
+                className={
+                  'form-control' +
+                  (errors.gender && touched.gender ? ' is-invalid' : '')
+                }
+              >
+                <option value='nb'>Non Binary</option>
+                <option value='male'>Male</option>
+                <option value='female'>Female</option>
+              </Field>
+              <ErrorMessage
+                name='gender'
+                component='div'
+                className='invalid-feedback'
+              />
+            </div>
+            <div className='form-group col-2'>
+              <label>Interested in</label>
+              <Field
+                name='orientation'
+                as='select'
+                className={
+                  'form-control' +
+                  (errors.orientation && touched.orientation
+                    ? ' is-invalid'
+                    : '')
+                }
+              >
+                <option value='any'>Either</option>
+                <option value='homosexual'>Homosexual</option>
+                <option value='heterosexual'>Heterosexual</option>
+              </Field>
+              <ErrorMessage
+                name='orientation'
+                component='div'
+                className='invalid-feedback'
+              />
+            </div>
+          </div>
           {/* Tags */}
-          <h1>Interests</h1>
+          <h2>Tags</h2>
           <div className='form-row'>
             <div className='form-group col-2'>
               <label>Smoking?</label>
@@ -286,6 +333,7 @@ function Update({ history }) {
             </div>
           </div>
           <div className='form-group'>
+            <h2>Bio</h2>
             <label>Write a short bio about yourself</label>
             <Field
               name='bio'

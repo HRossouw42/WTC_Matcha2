@@ -24,8 +24,8 @@ function publicProfile({ history, match }) {
   }, []);
 
   return (
-    <div>
-      <h1> {user.firstName}'s Public Profile</h1>
+<div>
+      <h1> {user.firstName}'s Profile</h1>
       <p>
         <strong>Name: </strong> {user.title} {user.firstName} {user.lastName}
         <br />
@@ -34,7 +34,13 @@ function publicProfile({ history, match }) {
         <strong>Email: </strong> {user.email}
         <br />
       </p>
-      <p>
+      <p style={{ textTransform: 'capitalize' }}>
+        <strong>Gender: </strong> {user.gender}
+        <br />
+        <strong>Orientation: </strong> {user.orientation}
+        <br />
+      </p>
+      <p style={{ textTransform: 'capitalize' }}>
         <strong>Smoking: </strong> {user.smoking}
         <br />
         <strong>Drinking: </strong>
@@ -53,7 +59,6 @@ function publicProfile({ history, match }) {
         <br />
         {user.bio}
       </p>
-      <p>Like button?</p>
     </div>
   );
 }
