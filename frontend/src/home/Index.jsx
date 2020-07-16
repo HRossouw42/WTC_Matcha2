@@ -8,7 +8,7 @@ function Home() {
   return (
     <div className='p-4'>
       <div className='container'>
-        <h1>Hi {user.firstName}!</h1>
+        <h1>Hi {user.first_name}!</h1>
         <p>this is change</p>
       </div>
     </div>

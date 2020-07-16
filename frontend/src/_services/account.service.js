@@ -1,15 +1,16 @@
 import { BehaviorSubject } from 'rxjs';
-
-import config from 'config';
+// import config from 'config';
 import { fetchWrapper, history } from '@/_helpers';
+import ky from 'ky-universal'
+var jwt = require('jsonwebtoken')
 
 const userSubject = new BehaviorSubject(null);
-const baseUrl = `${config.apiUrl}/accounts`;
+// const baseUrl = `${config.apiUrl}`;
 
 export const accountService = {
     login,
     logout,
-    refreshToken,
+    // refreshToken,
     register,
     verifyEmail,
     forgotPassword,
@@ -22,16 +23,22 @@ export const accountService = {
     delete: _delete,
     user: userSubject.asObservable(),
     get userValue () { return userSubject.value }
-};
+}
 
-function login(email, password) {
-    return fetchWrapper.post(`${baseUrl}/authenticate`, { email, password })
-        .then(user => {
-            // publish user to subscribers and start timer to refresh token
-            userSubject.next(user);
-            startRefreshTokenTimer();
-            return user;
-        });
+async function login(params) {
+    const token = await ky.post('http://localhost:3001/login', { json: params }).then(resp => resp.text())
+    if (token){
+        const decoded = jwt.verify(token, 'secret')
+        const user = {
+            first_name: decoded.first_name,
+            last_name: decoded.last_name,
+            email: decoded.email,
+            token: token,
+        }
+        userSubject.next(user)
+        console.log(user)
+        return user
+    }
 }
 
 function logout() {
@@ -42,18 +49,18 @@ function logout() {
     history.push('/account/login');
 }
 
-function refreshToken() {
-    return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
-        .then(user => {
-            // publish user to subscribers and start timer to refresh token
-            userSubject.next(user);
-            startRefreshTokenTimer();
-            return user;
-        });
-}
+// function refreshToken() {
+//     return fetchWrapper.post(`/refresh-token`, {})
+//         .then(user => {
+//             // publish user to subscribers and start timer to refresh token
+//             userSubject.next(user);
+//             startRefreshTokenTimer();
+//             return user;
+//         });
+// }
 
 function register(params) {
-    return fetchWrapper.post(`${baseUrl}/register`, params);
+    return ky.post('http://localhost:3001/signup', { json: params })
 }
 
 function verifyEmail(token) {
@@ -84,17 +91,18 @@ function create(params) {
     return fetchWrapper.post(baseUrl, params);
 }
 
-function update(id, params) {
-    return fetchWrapper.put(`${baseUrl}/${id}`, params)
-        .then(user => {
-            // update stored user if the logged in user updated their own record
-            if (user.id === userSubject.value.id) {
-                // publish updated user to subscribers
-                user = { ...userSubject.value, ...user };
-                userSubject.next(user);
-            }
-            return user;
-        });
+function update(params) {
+    console.log(params)
+    // return fetchWrapper.put(`${baseUrl}/${id}`, params)
+    //     .then(user => {
+    //         // update stored user if the logged in user updated their own record
+    //         if (user.id === userSubject.value.id) {
+    //             // publish updated user to subscribers
+    //             user = { ...userSubject.value, ...user };
+    //             userSubject.next(user);
+    //         }
+    //         return user;
+    //     });
 }
 
 // prefixed with underscore because 'delete' is a reserved word in javascript

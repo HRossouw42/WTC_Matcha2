@@ -10,10 +10,13 @@ import { accountService, alertService } from '@/_services';
 function Update({ history }) {
   const user = accountService.userValue;
   const initialValues = {
-    firstName: user.firstName,
-    lastName: user.lastName,
+    first_name: user.first_name,
+    last_name: user.last_name,
     age: user.age,
     email: user.email,
+    gender: user.gender,
+    orientation: user.orientation,
+    location: user.location,
     smoking: user.smoking,
     drinking: user.drinking,
     religion: user.religion,
@@ -26,10 +29,13 @@ function Update({ history }) {
 
   //TODO: bio text input validation
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required('First Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
+    first_name: Yup.string().required('First Name is required'),
+    last_name: Yup.string().required('Last Name is required'),
     age: Yup.number().required('Age is required to be a number'),
     email: Yup.string().email('Email is invalid').required('Email is required'),
+    gender: Yup.string().required('Gender is required'),
+    orientation: Yup.string().required('Orientation is required'),
+    location: Yup.string().required('Location is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: Yup.string()
       .when('password', (password, schema) => {
@@ -39,10 +45,9 @@ function Update({ history }) {
   });
 
   function onSubmit(fields, { setStatus, setSubmitting }) {
-    // console.log(fields);
     setStatus();
     accountService
-      .update(user.id, fields)
+      .update(fields)
       .then(() => {
         alertService.success('Update successful', {
           keepAfterRouteChange: true,
@@ -79,15 +84,15 @@ function Update({ history }) {
             <div className='form-group col-5'>
               <label>First Name</label>
               <Field
-                name='firstName'
+                name='first_name'
                 type='text'
                 className={
                   'form-control' +
-                  (errors.firstName && touched.firstName ? ' is-invalid' : '')
+                  (errors.first_name && touched.first_name ? ' is-invalid' : '')
                 }
               />
               <ErrorMessage
-                name='firstName'
+                name='first_name'
                 component='div'
                 className='invalid-feedback'
               />
@@ -95,15 +100,15 @@ function Update({ history }) {
             <div className='form-group col-5'>
               <label>Last Name</label>
               <Field
-                name='lastName'
+                name='last_name'
                 type='text'
                 className={
                   'form-control' +
-                  (errors.lastName && touched.lastName ? ' is-invalid' : '')
+                  (errors.last_name && touched.last_name ? ' is-invalid' : '')
                 }
               />
               <ErrorMessage
-                name='lastName'
+                name='last_name'
                 component='div'
                 className='invalid-feedback'
               />
@@ -141,6 +146,50 @@ function Update({ history }) {
               component='div'
               className='invalid-feedback'
             />
+          </div>
+          {/* gender */}
+          <div className='form-group'>
+              <label>Gender</label>
+              <Field
+                name='gender'
+                as='select'
+                className={
+                  'form-control' +
+                  (errors.gender && touched.gender ? ' is-invalid' : '')
+                }
+              >
+                <option value=''></option>
+                <option value='male'>male</option>
+                <option value='female'>female</option>
+                <option value='nonbinary'>nonbinary</option>
+              </Field>
+              <ErrorMessage
+                name='gender'
+                component='div'
+                className='invalid-feedback'
+              />
+          </div>
+          {/* orientation */}
+          <div className='form-group'>
+              <label>Orientation</label>
+              <Field
+                name='orientation'
+                as='select'
+                className={
+                  'form-control' +
+                  (errors.orientation && touched.orientation ? ' is-invalid' : '')
+                }
+              >
+                <option value=''></option>
+                <option value='heterosexual'>heterosexual</option>
+                <option value='homosexual'>homosexual</option>
+                <option value='any'>any</option>
+              </Field>
+              <ErrorMessage
+                name='orientation'
+                component='div'
+                className='invalid-feedback'
+              />
           </div>
           {/* Passwords */}
           <h3 className='pt-3'>Change Password</h3>

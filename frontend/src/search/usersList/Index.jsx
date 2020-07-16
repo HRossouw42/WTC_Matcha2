@@ -30,7 +30,7 @@ function UsersList({ match }) {
             users.map((user) => (
               <tr key={user.id}>
                 <td>
-                  {user.firstName} {user.lastName}
+                  {user.first_name} {user.last_name}
                 </td>
                 <td>{user.location}</td>
                 <td>{user.fame}</td>

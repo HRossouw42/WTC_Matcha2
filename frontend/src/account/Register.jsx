@@ -1,24 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 
-import { accountService, alertService } from '@/_services';
+import { accountService, alertService } from '@/_services'
 
 function Register({ history }) {
   const initialValues = {
-    title: '',
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
     confirmPassword: '',
     acceptTerms: false,
-  };
+  }
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required('First Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
+    first_name: Yup.string().required('First Name is required'),
+    last_name: Yup.string().required('Last Name is required'),
     email: Yup.string().email('Email is invalid').required('Email is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
@@ -30,23 +29,23 @@ function Register({ history }) {
       [true],
       'Accept Terms & Conditions is required'
     ),
-  });
+  })
 
-  function onSubmit(fields, { setStatus, setSubmitting }) {
-    setStatus();
+  function onSubmit (fields, { setStatus, setSubmitting }) {
+    setStatus()
     accountService
       .register(fields)
       .then(() => {
         alertService.success(
           'Registration successful, please check your email for verification instructions',
           { keepAfterRouteChange: true }
-        );
-        history.push('login');
+        )
+        history.push('login')
       })
       .catch((error) => {
         setSubmitting(false);
         alertService.error(error);
-      });
+      })
   }
 
   return (
@@ -63,15 +62,15 @@ function Register({ history }) {
               <div className='form-group col-5'>
                 <label>First Name</label>
                 <Field
-                  name='firstName'
+                  name='first_name'
                   type='text'
                   className={
                     'form-control' +
-                    (errors.firstName && touched.firstName ? ' is-invalid' : '')
+                    (errors.first_name && touched.first_name ? ' is-invalid' : '')
                   }
                 />
                 <ErrorMessage
-                  name='firstName'
+                  name='first_name'
                   component='div'
                   className='invalid-feedback'
                 />
@@ -79,15 +78,15 @@ function Register({ history }) {
               <div className='form-group col-5'>
                 <label>Last Name</label>
                 <Field
-                  name='lastName'
+                  name='last_name'
                   type='text'
                   className={
                     'form-control' +
-                    (errors.lastName && touched.lastName ? ' is-invalid' : '')
+                    (errors.last_name && touched.last_name ? ' is-invalid' : '')
                   }
                 />
                 <ErrorMessage
-                  name='lastName'
+                  name='last_name'
                   component='div'
                   className='invalid-feedback'
                 />
