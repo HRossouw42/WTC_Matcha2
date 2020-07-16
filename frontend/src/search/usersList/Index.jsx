@@ -39,6 +39,7 @@ function UsersList({ match }) {
           };
         });
         setUsers(compiledData);
+        setResetUsers(compiledData);
       })
       .catch((error) => {
         alertService.error(error);
@@ -55,13 +56,32 @@ function UsersList({ match }) {
     console.log(users);
 
     const searchedUsers = [];
-    users.map((user) => {
-      if (user.gender === query) {
-        searchedUsers.push(user);
-      }
-    }, query);
-    console.log(searchedUsers);
-    setUsers(searchedUsers);
+    if (query == '' || !query.length) {
+      onResetUsers();
+    } else {
+      resetUsers.map((user) => {
+        if (
+          user.firstName === query ||
+          user.lastName === query ||
+          user.gender === query ||
+          user.location === query ||
+          user.age === query
+        ) {
+          searchedUsers.push(user);
+        } else if (query === 'smoking' && user.smoking === 'Yes') {
+          searchedUsers.push(user);
+        } else if (query === 'drinking' && user.drinking === 'Yes') {
+          searchedUsers.push(user);
+        } else if (query === 'religion' && user.religion === 'Yes') {
+          searchedUsers.push(user);
+        } else if (query === 'pets' && user.pets === 'Yes') {
+          searchedUsers.push(user);
+        } else if (query === 'children' && user.children === 'Yes') {
+          searchedUsers.push(user);
+        }
+      }, query);
+      setUsers(searchedUsers);
+    }
     setSubmitting(false);
   }
 
@@ -89,6 +109,11 @@ function UsersList({ match }) {
 
     setUsers(sortedUsers);
     setSortedField({ key, direction });
+  }
+
+  const [resetUsers, setResetUsers] = useState(null);
+  function onResetUsers() {
+    setUsers(resetUsers);
   }
 
   return (
@@ -127,6 +152,13 @@ function UsersList({ match }) {
                   )}
                   Search
                 </button>
+                <button
+                  type='button'
+                  className='btn btn-warning mr-2'
+                  onClick={() => onResetUsers()}
+                >
+                  Reset
+                </button>
               </div>
             </Form>
           )}
@@ -135,6 +167,7 @@ function UsersList({ match }) {
       <table className='table table-striped table-condensed table-responsive'>
         <thead>
           <tr>
+            <th style={{ width: 'auto' }}></th>
             <th style={{ width: '10%' }}>
               <button type='button' onClick={() => requestSort('firstName')}>
                 Name
@@ -185,13 +218,20 @@ function UsersList({ match }) {
                 Children
               </button>
             </th>
-            <th style={{ width: 'auto' }}></th>
           </tr>
         </thead>
         <tbody>
           {users &&
             users.map((user) => (
               <tr key={user.id}>
+                <td style={{ whiteSpace: 'nowrap' }}>
+                  <Link
+                    to={`${path}/view/${user.id}`}
+                    className='btn btn-sm btn-info mr-1'
+                  >
+                    View
+                  </Link>
+                </td>
                 <td>
                   {user.firstName} {user.lastName}
                 </td>
@@ -204,14 +244,6 @@ function UsersList({ match }) {
                 <td>{user.religion}</td>
                 <td>{user.pets}</td>
                 <td>{user.children}</td>
-                <td style={{ whiteSpace: 'nowrap' }}>
-                  <Link
-                    to={`${path}/view/${user.id}`}
-                    className='btn btn-sm btn-primary mr-1'
-                  >
-                    View
-                  </Link>
-                </td>
               </tr>
             ))}
           {!users && (
