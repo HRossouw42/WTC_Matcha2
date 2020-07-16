@@ -9,13 +9,26 @@ import { Profile } from '@/profile';
 import { Admin } from '@/admin';
 import { Account } from '@/account';
 import { Search } from '@/search';
+import geolocator from 'geolocator';
 
 function App() {
   const { pathname } = useLocation();
   const [user, setUser] = useState({});
 
+  var options = {};
+
   useEffect(() => {
     const subscription = accountService.user.subscribe((x) => setUser(x));
+
+    geolocator.locate(options, function (err, location) {
+      console.log(err || location);
+    });
+
+    geolocator.locateByIP(options, function (err, location) {
+      console.log(err || `City location is ${location.address.city}`);
+      // console.log(`City location is ${location.address.city}`);
+    });
+
     return subscription.unsubscribe;
   }, []);
 

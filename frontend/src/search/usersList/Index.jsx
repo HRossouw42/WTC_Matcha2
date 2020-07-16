@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 import { accountService, alertService } from '@/_services';
 
@@ -20,23 +22,21 @@ function UsersList({ match }) {
       .getAll()
       .then((data) => {
         //TODO: take into account homo/hetero before loading data
-
-        let compiledData = data.map((obj) => {
-          let newObj = {};
-          newObj['id'] = obj.id;
-          newObj['firstName'] = obj.firstName;
-          newObj['lastName'] = obj.lastName;
-          newObj['gender'] = obj.gender;
-          newObj['location'] = obj.location;
-          newObj['fame'] = obj.fame;
-          newObj['age'] = obj.age;
-          newObj['smoking'] = obj.smoking;
-          newObj['drinking'] = obj.drinking;
-          newObj['religion'] = obj.religion;
-          newObj['pets'] = obj.pets;
-          newObj['children'] = obj.children;
-
-          return newObj;
+        const compiledData = data.map((obj) => {
+          return {
+            id: obj.id,
+            firstName: obj.firstName,
+            lastName: obj.lastName,
+            gender: obj.gender,
+            location: obj.location,
+            fame: obj.fame,
+            age: obj.age,
+            smoking: obj.smoking,
+            drinking: obj.drinking,
+            religion: obj.religion,
+            pets: obj.pets,
+            children: obj.children,
+          };
         });
         setUsers(compiledData);
       })
@@ -44,6 +44,30 @@ function UsersList({ match }) {
         alertService.error(error);
       });
   }, []);
+
+  const initialValues = {
+    search: '',
+  };
+
+  function onSearch(fields, { setStatus, setSubmitting }) {
+    setStatus();
+    const query = fields.search;
+    console.log(users);
+
+    const searchedUsers = [];
+    users.map((user) => {
+      if (user.gender === query) {
+        searchedUsers.push(user);
+      }
+    }, query);
+    console.log(searchedUsers);
+    setUsers(searchedUsers);
+    setSubmitting(false);
+  }
+
+  const validationSchema = Yup.object().shape({
+    search: Yup.string().min(2, 'Please enter a valid query'),
+  });
 
   function requestSort(key) {
     let sortedUsers = users;
@@ -69,8 +93,45 @@ function UsersList({ match }) {
 
   return (
     <div>
-      <h1>Search</h1>
       <p>Sexy Singles in Your AREA!</p>
+      <div className='form-group'>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSearch}
+        >
+          {({ errors, touched, isSubmitting }) => (
+            <Form>
+              <h1>Search</h1>
+              <Field
+                name='search'
+                type='text'
+                className={
+                  'form-control' +
+                  (errors.search && touched.search ? ' is-invalid' : '')
+                }
+              />
+              <ErrorMessage
+                name='search'
+                component='div'
+                className='invalid-feedback'
+              />
+              <div>
+                <button
+                  type='submit'
+                  disabled={isSubmitting}
+                  className='btn btn-primary mr-2'
+                >
+                  {isSubmitting && (
+                    <span className='spinner-border spinner-border-sm mr-1'></span>
+                  )}
+                  Search
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
       <table className='table table-striped table-condensed table-responsive'>
         <thead>
           <tr>
