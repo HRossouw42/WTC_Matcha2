@@ -19,11 +19,14 @@ function UsersList({ match }) {
     accountService
       .getAll()
       .then((data) => {
+        //TODO: take into account homo/hetero before loading data
+
         let compiledData = data.map((obj) => {
           let newObj = {};
           newObj['id'] = obj.id;
           newObj['firstName'] = obj.firstName;
           newObj['lastName'] = obj.lastName;
+          newObj['gender'] = obj.gender;
           newObj['location'] = obj.location;
           newObj['fame'] = obj.fame;
           newObj['age'] = obj.age;
@@ -77,6 +80,11 @@ function UsersList({ match }) {
               </button>
             </th>
             <th style={{ width: '10%' }}>
+              <button type='button' onClick={() => requestSort('gender')}>
+                Gender
+              </button>
+            </th>
+            <th style={{ width: '10%' }}>
               <button type='button' onClick={() => requestSort('location')}>
                 Location
               </button>
@@ -126,6 +134,7 @@ function UsersList({ match }) {
                 <td>
                   {user.firstName} {user.lastName}
                 </td>
+                <td>{user.gender}</td>
                 <td>{user.location}</td>
                 <td>{user.fame}</td>
                 <td>{user.age}</td>
