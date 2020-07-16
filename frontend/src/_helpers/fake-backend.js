@@ -71,6 +71,8 @@ export function configureFakeBackend() {
           first_name: user.first_name,
           last_name: user.last_name,
           age: user.age,
+          gender: user.gender,
+          orientation: user.orientation,
           smoking: user.smoking,
           drinking: user.drinking,
           religion: user.religion,
@@ -105,6 +107,8 @@ export function configureFakeBackend() {
           first_name: user.first_name,
           last_name: user.last_name,
           age: user.age,
+          gender: user.gender,
+          orientation: user.orientation,
           smoking: user.smoking,
           drinking: user.drinking,
           religion: user.religion,
@@ -279,9 +283,9 @@ export function configureFakeBackend() {
         let user = users.find((x) => x.id === idFromUrl());
 
         // users can get own profile and admins can get all profiles
-        if (user.id !== currentUser().id && !isAuthorized(Role.Admin)) {
-          return unauthorized();
-        }
+        // if (user.id !== currentUser().id && !isAuthorized(Role.Admin)) {
+        //   return unauthorized();
+        // }
 
         return ok(user);
       }
@@ -334,6 +338,8 @@ export function configureFakeBackend() {
           first_name: user.first_name,
           last_name: user.last_name,
           age: user.age,
+          gender: user.gender,
+          orientation: user.orientation,
           smoking: user.smoking,
           drinking: user.drinking,
           religion: user.religion,
@@ -373,7 +379,9 @@ export function configureFakeBackend() {
         resolve({
           status: 401,
           text: () =>
-            Promise.resolve(JSON.stringify({ message: 'Unauthorized' })),
+            Promise.resolve(
+              JSON.stringify({ message: 'Unauthorized, please log in' })
+            ),
         });
       }
 

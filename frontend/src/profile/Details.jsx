@@ -24,7 +24,13 @@ function Details({ match }) {
         <strong>Email: </strong> {user.email}
         <br />
       </p>
-      <p>
+      <p style={{ textTransform: 'capitalize' }}>
+        <strong>Gender: </strong> {user.gender}
+        <br />
+        <strong>Orientation: </strong> {user.orientation}
+        <br />
+      </p>
+      <p style={{ textTransform: 'capitalize' }}>
         <strong>Smoking: </strong> {user.smoking}
         <br />
         <strong>Drinking: </strong>
