@@ -1,22 +1,25 @@
 //TODO: Link update with services
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import geolocator from 'geolocator';
 
 import { accountService, alertService } from '@/_services';
 
 function Update({ history }) {
   const user = accountService.userValue;
+
   const initialValues = {
     firstName: user.firstName,
     lastName: user.lastName,
-    username: user.username,
+    username: '',
     age: user.age,
     email: user.email,
     gender: user.gender,
     orientation: user.orientation,
+    location: '',
     smoking: user.smoking,
     drinking: user.drinking,
     religion: user.religion,
@@ -26,6 +29,17 @@ function Update({ history }) {
     password: '',
     confirmPassword: '',
   };
+
+  useEffect(() => {
+    var options = {};
+
+    geolocator.locateByIP(options, function (err, location) {
+      console.log(err);
+      setArea(location.address.state);
+    });
+  });
+
+  const [area, setArea] = useState(null);
 
   //TODO: bio text input validation
   const validationSchema = Yup.object().shape({
@@ -216,9 +230,16 @@ function Update({ history }) {
                   (errors.location && touched.location ? ' is-invalid' : '')
                 }
               >
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
+                <option value='1'>Eastern Cape</option>
+                <option value='2'>Free State</option>
+                <option value='3'>Gauteng</option>
+                <option value='4'>KwaZulu-Natal</option>
+                <option value='5'>Limpopo</option>
+                <option value='6'>Mpumalanga</option>
+                <option value='7'>Northern Cape</option>
+                <option value='8'>North-West</option>
+                <option value='9'>Western Cape</option>
+                <option value='9'>Other</option>
               </Field>
               <ErrorMessage
                 name='location'
@@ -287,8 +308,8 @@ function Update({ history }) {
                 }
               >
                 <option value=''></option>
-                <option value='Yes'>Yes</option>
-                <option value='No'>No</option>
+                <option value='1'>Yes</option>
+                <option value='0'>No</option>
               </Field>
               <ErrorMessage
                 name='smoking'
@@ -307,8 +328,8 @@ function Update({ history }) {
                 }
               >
                 <option value=''></option>
-                <option value='Yes'>Yes</option>
-                <option value='No'>No</option>
+                <option value='1'>Yes</option>
+                <option value='0'>No</option>
               </Field>
               <ErrorMessage
                 name='drinking'
@@ -327,8 +348,8 @@ function Update({ history }) {
                 }
               >
                 <option value=''></option>
-                <option value='Yes'>Yes</option>
-                <option value='No'>No</option>
+                <option value='1'>Yes</option>
+                <option value='0'>No</option>
               </Field>
               <ErrorMessage
                 name='religion'
@@ -347,8 +368,8 @@ function Update({ history }) {
                 }
               >
                 <option value=''></option>
-                <option value='Yes'>Yes</option>
-                <option value='No'>No</option>
+                <option value='1'>Yes</option>
+                <option value='0'>No</option>
               </Field>
               <ErrorMessage
                 name='pets'
@@ -367,8 +388,8 @@ function Update({ history }) {
                 }
               >
                 <option value=''></option>
-                <option value='Yes'>Yes</option>
-                <option value='No'>No</option>
+                <option value='1'>Yes</option>
+                <option value='0'>No</option>
               </Field>
               <ErrorMessage
                 name='children'

@@ -1,15 +1,174 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
-import { accountService } from '@/_services';
+import { accountService, alertService } from '@/_services';
 
-function Home() {
+function Home({ match }) {
+  const { path } = '';
   const user = accountService.userValue;
+
+  //backend data
+  const [users, setUsers] = useState(null);
+  //sorting
+  // const [items, requestSort] = useSortableData(null);
+  let sortDirection = 'ascending';
+  const [sortedField, setSortedField] = useState(sortDirection);
+
+  useEffect(() => {
+    accountService
+      .getAll()
+      .then((data) => {
+        //TODO: take into account homo/hetero before loading data
+        const compiledData = data.map((obj) => {
+          return {
+            id: obj.id,
+            firstName: obj.firstName,
+            lastName: obj.lastName,
+            gender: obj.gender,
+            location: obj.location,
+            fame: obj.fame,
+            age: obj.age,
+            smoking: obj.smoking,
+            drinking: obj.drinking,
+            religion: obj.religion,
+            pets: obj.pets,
+            children: obj.children,
+          };
+        });
+        setUsers(compiledData);
+        setResetUsers(compiledData);
+      })
+      .catch((error) => {
+        alertService.error(error);
+      });
+  }, []);
+
+  const initialValues = {
+    search: '',
+  };
+
+  function onSearch(fields, { setStatus, setSubmitting }) {
+    setStatus();
+    const query = fields.search;
+    console.log(users);
+
+    const searchedUsers = [];
+    if (query == '' || !query.length) {
+      onResetUsers();
+    } else {
+      resetUsers.map((user) => {
+        if (
+          user.firstName === query ||
+          user.lastName === query ||
+          user.gender === query ||
+          user.location === query ||
+          user.age === query
+        ) {
+          searchedUsers.push(user);
+        } else if (query === 'smoking' && user.smoking === 'Yes') {
+          searchedUsers.push(user);
+        } else if (query === 'drinking' && user.drinking === 'Yes') {
+          searchedUsers.push(user);
+        } else if (query === 'religion' && user.religion === 'Yes') {
+          searchedUsers.push(user);
+        } else if (query === 'pets' && user.pets === 'Yes') {
+          searchedUsers.push(user);
+        } else if (query === 'children' && user.children === 'Yes') {
+          searchedUsers.push(user);
+        }
+      }, query);
+      setUsers(searchedUsers);
+    }
+    setSubmitting(false);
+  }
+
+  const validationSchema = Yup.object().shape({
+    search: Yup.string().min(2, 'Please enter a valid query'),
+  });
+
+  function requestSort(key) {
+    let sortedUsers = users;
+    let direction = 'ascending';
+
+    if (sortedField.key === key && sortedField.direction === 'ascending') {
+      direction = 'descending';
+    }
+
+    sortedUsers.sort((a, b) => {
+      if (a[key] < b[key]) {
+        return sortedField.direction === 'ascending' ? -1 : 1;
+      }
+      if (a[key] > b[key]) {
+        return sortedField.direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+
+    setUsers(sortedUsers);
+    setSortedField({ key, direction });
+  }
+
+  const [resetUsers, setResetUsers] = useState(null);
+  function onResetUsers() {
+    setUsers(resetUsers);
+  }
 
   return (
     <div className='p-4'>
       <div className='container'>
         <h1>Hi {user.firstName}!</h1>
-        <p>this is change</p>
+        <p>We think you might like...</p>
+      </div>
+      <div>
+        <table className='table table-striped table-condensed table-responsive'>
+          <thead>
+            <tr>
+              <th style={{ width: 'auto' }}></th>
+              <th style={{ width: '30%' }}>
+                <strong type='button'>Name</strong>
+              </th>
+              <th style={{ width: '25%' }}>
+                <strong type='button'>Gender</strong>
+              </th>
+              <th style={{ width: '25%' }}>
+                <strong type='button'>Fame</strong>
+              </th>
+              <th style={{ width: '25%' }}>
+                <strong type='button'>Age</strong>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {users &&
+              users.map((user) => (
+                <tr key={user.id}>
+                  <td style={{ whiteSpace: 'nowrap' }}>
+                    <Link
+                      to={`search/view/${user.id}`}
+                      className='btn btn-sm btn-info mr-1'
+                    >
+                      View
+                    </Link>
+                  </td>
+                  <td>
+                    {user.firstName} {user.lastName}
+                  </td>
+                  <td>{user.gender}</td>
+                  <td>{user.fame}</td>
+                  <td>{user.age}</td>
+                </tr>
+              ))}
+            {!users && (
+              <tr>
+                <td colSpan='4' className='text-center'>
+                  <span className='spinner-border spinner-border-lg align-center'></span>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

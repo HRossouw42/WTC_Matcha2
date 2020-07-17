@@ -8,6 +8,8 @@ function Details({ match }) {
   const { path } = match;
   const user = accountService.userValue;
 
+  // TODO: send props to Carousel for images
+
   return (
     <div>
       <h1> {user.firstName}'s Profile</h1>
@@ -44,12 +46,13 @@ function Details({ match }) {
         <br />
         {user.bio}
       </p>
-      <p>
+      <div>
         <Link to={`${path}/update`}>Update Profile</Link>
         <div className='w-50 mx-auto'>
+          <Link to={`${path}/image`}>Update Photos</Link>
           <Carousel />
         </div>
-      </p>
+      </div>
     </div>
   );
 }

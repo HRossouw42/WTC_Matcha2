@@ -1,27 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 
-export default () => (
+export default (props) => (
   <Carousel autoPlay>
     <div>
-      <img alt='' src='http://lorempixel.com/output/cats-q-c-640-480-1.jpg' />
-      <p className='legend'>Legend 1</p>
+      <img alt='' src='http://placecorgi.com/640/480' />
+      <p className='legend'>Profile Pic</p>
     </div>
     <div>
-      <img alt='' src='http://lorempixel.com/output/cats-q-c-640-480-2.jpg' />
-      <p className='legend'>Legend 2</p>
+      <img alt='' src='http://placecorgi.com/641/480' />
     </div>
     <div>
-      <img alt='' src='http://lorempixel.com/output/cats-q-c-640-480-3.jpg' />
-      <p className='legend'>Legend 3</p>
+      <img alt='' src='http://placecorgi.com/642/480' />
     </div>
     <div>
-      <img alt='' src='http://lorempixel.com/output/cats-q-c-640-480-4.jpg' />
-      <p className='legend'>Legend 4</p>
+      <img alt='' src='http://placecorgi.com/643/480' />
     </div>
     <div>
-      <img alt='' src='http://lorempixel.com/output/cats-q-c-640-480-5.jpg' />
-      <p className='legend'>Legend 5</p>
+      <img alt='' src='http://placecorgi.com/644/480' />
     </div>
   </Carousel>
 );
