@@ -20,7 +20,11 @@ function Login({ history, location }) {
 
     function onSubmit({ email, password }, { setSubmitting }) {
         alertService.clear();
-        accountService.login(email, password)
+        const login = {
+            email: email,
+            password: password
+        }
+        accountService.login(login)
             .then(() => {
                 const { from } = location.state || { from: { pathname: "/" } };
                 history.push(from);

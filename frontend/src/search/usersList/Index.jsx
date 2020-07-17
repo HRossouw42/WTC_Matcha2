@@ -25,8 +25,8 @@ function UsersList({ match }) {
         const compiledData = data.map((obj) => {
           return {
             id: obj.id,
-            firstName: obj.firstName,
-            lastName: obj.lastName,
+            first_name: obj.first_name,
+            last_name: obj.last_name,
             gender: obj.gender,
             location: obj.location,
             fame: obj.fame,
@@ -53,7 +53,6 @@ function UsersList({ match }) {
   function onSearch(fields, { setStatus, setSubmitting }) {
     setStatus();
     const query = fields.search;
-    console.log(users);
 
     const searchedUsers = [];
     if (query == '' || !query.length) {
@@ -61,8 +60,8 @@ function UsersList({ match }) {
     } else {
       resetUsers.map((user) => {
         if (
-          user.firstName === query ||
-          user.lastName === query ||
+          user.first_name === query ||
+          user.last_name === query ||
           user.gender === query ||
           user.location === query ||
           user.age === query
@@ -169,7 +168,7 @@ function UsersList({ match }) {
           <tr>
             <th style={{ width: 'auto' }}></th>
             <th style={{ width: '10%' }}>
-              <button type='button' onClick={() => requestSort('firstName')}>
+              <button type='button' onClick={() => requestSort('first_name')}>
                 Name
               </button>
             </th>
@@ -233,7 +232,7 @@ function UsersList({ match }) {
                   </Link>
                 </td>
                 <td>
-                  {user.firstName} {user.lastName}
+                  {user.first_name} {user.last_name}
                 </td>
                 <td>{user.gender}</td>
                 <td>{user.location}</td>

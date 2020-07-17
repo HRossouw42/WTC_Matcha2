@@ -62,7 +62,6 @@ function Home({ match }) {
   function onSearch(fields, { setStatus, setSubmitting }) {
     setStatus();
     const query = fields.search;
-    console.log(users);
 
     const searchedUsers = [];
     if (query == '' || !query.length) {
@@ -128,7 +127,7 @@ function Home({ match }) {
   return (
     <div className='p-4'>
       <div className='container'>
-        <h1>Hi {user.firstName}!</h1>
+        <h1>Hi {user.first_name}!</h1>
         <p>We think you might like...</p>
       </div>
       <div>
@@ -163,7 +162,7 @@ function Home({ match }) {
                     </Link>
                   </td>
                   <td>
-                    {user.firstName} {user.lastName}
+                    {user.first_name} {user.last_name}
                   </td>
                   <td>{user.gender}</td>
                   <td>{user.fame}</td>

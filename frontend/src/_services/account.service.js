@@ -1,103 +1,103 @@
 import { BehaviorSubject } from 'rxjs';
-
-import config from 'config';
-import { fetchWrapper, history } from '@/_helpers';
+import { history } from '@/_helpers';
+import ky from 'ky-universal'
+var jwt = require('jsonwebtoken')
 
 const userSubject = new BehaviorSubject(null);
-const baseUrl = `${config.apiUrl}/accounts`;
 
 export const accountService = {
     login,
     logout,
-    refreshToken,
     register,
-    verifyEmail,
     forgotPassword,
-    validateResetToken,
     resetPassword,
     getAll,
     getById,
-    create,
     update,
     delete: _delete,
     user: userSubject.asObservable(),
     get userValue () { return userSubject.value }
-};
+}
 
-function login(email, password) {
-    return fetchWrapper.post(`${baseUrl}/authenticate`, { email, password })
-        .then(user => {
-            // publish user to subscribers and start timer to refresh token
-            userSubject.next(user);
-            startRefreshTokenTimer();
-            return user;
-        });
+async function login(params) {
+    const token = await ky.post('http://localhost:3000/login', { json: params }).then(resp => resp.text())
+    if (token){
+        const decoded = jwt.verify(token, 'secret')
+        const user = {
+            first_name: decoded.first_name,
+            last_name: decoded.last_name,
+            email: decoded.email,
+            token: token,
+        }
+        userSubject.next(user)
+        return user
+    }
 }
 
 function logout() {
-    // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
-    fetchWrapper.post(`${baseUrl}/revoke-token`, {});
-    stopRefreshTokenTimer();
     userSubject.next(null);
     history.push('/account/login');
 }
 
-function refreshToken() {
-    return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
-        .then(user => {
-            // publish user to subscribers and start timer to refresh token
-            userSubject.next(user);
-            startRefreshTokenTimer();
-            return user;
-        });
+async function register(params) {
+    return await ky.post('http://localhost:3000/register', { json: params })
 }
 
-function register(params) {
-    return fetchWrapper.post(`${baseUrl}/register`, params);
+async function forgotPassword ( email ) {
+    return await ky.post('http://localhost:3000/forgot', { body: email } )
 }
 
-function verifyEmail(token) {
-    return fetchWrapper.post(`${baseUrl}/verify-email`, { token });
+async function resetPassword( token, password ) {
+    return await ky.post('http://localhost:3000/reset', {json: { token, password }})
 }
 
-function forgotPassword(email) {
-    return fetchWrapper.post(`${baseUrl}/forgot-password`, { email });
+async function getAll() {
+    return await ky.get('http://localhost:3000/users').then(resp => resp.json())
 }
 
-function validateResetToken(token) {
-    return fetchWrapper.post(`${baseUrl}/validate-reset-token`, { token });
+async function getById(id) {
+    return await ky.get(`http://localhost:3000/getById/${id}`,).then(resp => resp.json())
 }
 
-function resetPassword({ token, password, confirmPassword }) {
-    return fetchWrapper.post(`${baseUrl}/reset-password`, { token, password, confirmPassword });
+async function update(params) {
+
+    params.token = accountService.userValue.token
+    const result = await ky.post('http://localhost:3000/profile', { json: params }).then(resp => resp.status)
+    if (result == 200){
+        accountService.userValue.orientation = params.orientation
+        accountService.userValue.username = params.username
+        accountService.userValue.age = params.age
+        accountService.userValue.gender = params.gender
+        accountService.userValue.location = params.location
+        if ( params.smoking == 1){
+            accountService.userValue.smoking = 'Yes'
+        } else {
+            accountService.userValue.smoking = 'No'
+        }
+        if ( params.drinking == 1){
+            accountService.userValue.drinking  = 'Yes'
+        } else {
+            accountService.userValue.drinking  = 'No'
+        }
+        if ( params.religion == 1){
+            accountService.userValue.religion = 'Yes'
+        } else {
+            accountService.userValue.religion = 'No'
+        }
+        if ( params.pets == 1){
+            accountService.userValue.pets = 'Yes'
+        } else {
+            accountService.userValue.pets = 'No'
+        }
+        if ( params.children == 1){
+            accountService.userValue.children = 'Yes'
+        } else {
+            accountService.userValue.children = 'No'
+        }
+        accountService.userValue.bio = params.bio
+    }
 }
 
-function getAll() {
-    return fetchWrapper.get(baseUrl);
-}
-
-function getById(id) {
-    return fetchWrapper.get(`${baseUrl}/${id}`);
-}
-
-function create(params) {
-    return fetchWrapper.post(baseUrl, params);
-}
-
-function update(id, params) {
-    return fetchWrapper.put(`${baseUrl}/${id}`, params)
-        .then(user => {
-            // update stored user if the logged in user updated their own record
-            if (user.id === userSubject.value.id) {
-                // publish updated user to subscribers
-                user = { ...userSubject.value, ...user };
-                userSubject.next(user);
-            }
-            return user;
-        });
-}
-
-// prefixed with underscore because 'delete' is a reserved word in javascript
 function _delete(id) {
     return fetchWrapper.delete(`${baseUrl}/${id}`)
         .then(x => {
@@ -107,22 +107,4 @@ function _delete(id) {
             }
             return x;
         });
-}
-
-// helper functions
-
-let refreshTokenTimeout;
-
-function startRefreshTokenTimer() {
-    // parse json object from base64 encoded jwt token
-    const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
-
-    // set a timeout to refresh the token a minute before it expires
-    const expires = new Date(jwtToken.exp * 1000);
-    const timeout = expires.getTime() - Date.now() - (60 * 1000);
-    refreshTokenTimeout = setTimeout(refreshToken, timeout);
-}
-
-function stopRefreshTokenTimer() {
-    clearTimeout(refreshTokenTimeout);
 }
