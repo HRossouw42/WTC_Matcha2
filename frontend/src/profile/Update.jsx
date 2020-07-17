@@ -12,6 +12,7 @@ function Update({ history }) {
   const initialValues = {
     firstName: user.firstName,
     lastName: user.lastName,
+    username: user.username,
     age: user.age,
     email: user.email,
     gender: user.gender,
@@ -30,7 +31,11 @@ function Update({ history }) {
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required('First Name is required'),
     lastName: Yup.string().required('Last Name is required'),
-    age: Yup.number().required('Age is required to be a number'),
+    username: Yup.string().required('Username is required'),
+    age: Yup.number()
+      .min(18)
+      .max(100)
+      .required('Age is required to be a number'),
     email: Yup.string().email('Email is invalid').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: Yup.string()
@@ -127,6 +132,22 @@ function Update({ history }) {
               />
             </div>
           </div>
+          <div className='form-group'>
+            <label>Username</label>
+            <Field
+              name='username'
+              type='text'
+              className={
+                'form-control' +
+                (errors.username && touched.username ? ' is-invalid' : '')
+              }
+            />
+            <ErrorMessage
+              name='username'
+              component='div'
+              className='invalid-feedback'
+            />
+          </div>
           {/* Email */}
           <div className='form-group'>
             <label>Email</label>
@@ -183,6 +204,30 @@ function Update({ history }) {
               />
             </div>
           </div>
+          <h1>Location</h1>
+          <div className='form-row'>
+            <div className='form-group col-2'>
+              {/* <label>Area</label> */}
+              <Field
+                name='location'
+                as='select'
+                className={
+                  'form-control' +
+                  (errors.location && touched.location ? ' is-invalid' : '')
+                }
+              >
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+              </Field>
+              <ErrorMessage
+                name='location'
+                component='div'
+                className='invalid-feedback'
+              />
+            </div>
+          </div>
+          {/* Orientation & Gender */}
           <h1>Orientation</h1>
           <div className='form-row'>
             <div className='form-group col-2'>
