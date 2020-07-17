@@ -12,10 +12,10 @@ function Update({ history }) {
   const user = accountService.userValue;
 
   const initialValues = {
-    firstName: user.firstName,
-    lastName: user.lastName,
+    first_name: user.first_name,
+    last_name: user.last_name,
     username: '',
-    age: user.age,
+    age: 18,
     email: user.email,
     gender: user.gender,
     orientation: user.orientation,
@@ -25,7 +25,7 @@ function Update({ history }) {
     religion: user.religion,
     pets: user.pets,
     children: user.children,
-    bio: user.bio,
+    bio: '',
     password: '',
     confirmPassword: '',
   };
@@ -43,9 +43,9 @@ function Update({ history }) {
 
   //TODO: bio text input validation
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required('First Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
-    username: Yup.string().required('Username is required'),
+    first_name: Yup.string().required('First Name is required'),
+    last_name: Yup.string().required('Last Name is required'),
+    // username: Yup.string().required('Username is required'),
     age: Yup.number()
       .min(18)
       .max(100)
@@ -60,10 +60,9 @@ function Update({ history }) {
   });
 
   function onSubmit(fields, { setStatus, setSubmitting }) {
-    // console.log(fields);
     setStatus();
     accountService
-      .update(user.id, fields)
+      .update(fields)
       .then(() => {
         alertService.success('Update successful', {
           keepAfterRouteChange: true,
@@ -100,15 +99,15 @@ function Update({ history }) {
             <div className='form-group col-5'>
               <label>First Name</label>
               <Field
-                name='firstName'
+                name='first_name'
                 type='text'
                 className={
                   'form-control' +
-                  (errors.firstName && touched.firstName ? ' is-invalid' : '')
+                  (errors.first_name && touched.first_name ? ' is-invalid' : '')
                 }
               />
               <ErrorMessage
-                name='firstName'
+                name='first_name'
                 component='div'
                 className='invalid-feedback'
               />
@@ -116,15 +115,15 @@ function Update({ history }) {
             <div className='form-group col-5'>
               <label>Last Name</label>
               <Field
-                name='lastName'
+                name='last_name'
                 type='text'
                 className={
                   'form-control' +
-                  (errors.lastName && touched.lastName ? ' is-invalid' : '')
+                  (errors.last_name && touched.last_name ? ' is-invalid' : '')
                 }
               />
               <ErrorMessage
-                name='lastName'
+                name='last_name'
                 component='div'
                 className='invalid-feedback'
               />
@@ -230,16 +229,16 @@ function Update({ history }) {
                   (errors.location && touched.location ? ' is-invalid' : '')
                 }
               >
-                <option value='1'>Eastern Cape</option>
-                <option value='2'>Free State</option>
-                <option value='3'>Gauteng</option>
-                <option value='4'>KwaZulu-Natal</option>
-                <option value='5'>Limpopo</option>
-                <option value='6'>Mpumalanga</option>
-                <option value='7'>Northern Cape</option>
-                <option value='8'>North-West</option>
-                <option value='9'>Western Cape</option>
-                <option value='9'>Other</option>
+                <option value='Eastern Cape'>Eastern Cape</option>
+                <option value='Free State'>Free State</option>
+                <option value='Gauteng'>Gauteng</option>
+                <option value='KwaZulu-Natal'>KwaZulu-Natal</option>
+                <option value='Limpopo'>Limpopo</option>
+                <option value='Mpumalanga'>Mpumalanga</option>
+                <option value='Northern Cape'>Northern Cape</option>
+                <option value='North-West'>North-West</option>
+                <option value='Western Cape'>Western Cape</option>
+                <option value='Other'>Other</option>
               </Field>
               <ErrorMessage
                 name='location'

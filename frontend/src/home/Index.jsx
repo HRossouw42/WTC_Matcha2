@@ -24,11 +24,13 @@ function Home({ match }) {
         const compiledData = data.map((obj) => {
           return {
             id: obj.id,
-            firstName: obj.firstName,
-            lastName: obj.lastName,
+            email: obj.email,
+            first_name: obj.first_name,
+            last_name: obj.last_name,
+            orientation: obj.orientation,
             gender: obj.gender,
             location: obj.location,
-            fame: obj.fame,
+            likes: obj.fame,
             age: obj.age,
             smoking: obj.smoking,
             drinking: obj.drinking,
@@ -52,7 +54,6 @@ function Home({ match }) {
   function onSearch(fields, { setStatus, setSubmitting }) {
     setStatus();
     const query = fields.search;
-    console.log(users);
 
     const searchedUsers = [];
     if (query == '' || !query.length) {
@@ -60,8 +61,8 @@ function Home({ match }) {
     } else {
       resetUsers.map((user) => {
         if (
-          user.firstName === query ||
-          user.lastName === query ||
+          user.first_name === query ||
+          user.last_name === query ||
           user.gender === query ||
           user.location === query ||
           user.age === query
@@ -118,7 +119,7 @@ function Home({ match }) {
   return (
     <div className='p-4'>
       <div className='container'>
-        <h1>Hi {user.firstName}!</h1>
+        <h1>Hi {user.first_name}!</h1>
         <p>We think you might like...</p>
       </div>
       <div>
@@ -153,7 +154,7 @@ function Home({ match }) {
                     </Link>
                   </td>
                   <td>
-                    {user.firstName} {user.lastName}
+                    {user.first_name} {user.last_name}
                   </td>
                   <td>{user.gender}</td>
                   <td>{user.fame}</td>

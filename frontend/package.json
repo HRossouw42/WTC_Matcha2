@@ -7,9 +7,13 @@
         "start": "webpack-dev-server --open"
     },
     "dependencies": {
+        "core-js": "^3.6.5",
         "formik": "^2.1.4",
         "geolocator": "^2.1.5",
         "history": "^4.10.1",
+        "jsonwebtoken": "^8.5.1",
+        "ky": "^0.22.0",
+        "ky-universal": "^0.8.1",
         "prop-types": "^15.7.2",
         "query-string": "^6.11.0",
         "react": "^16.8.6",
@@ -17,6 +21,7 @@
         "react-dropzone": "^11.0.2",
         "react-responsive-carousel": "^3.2.9",
         "react-router-dom": "^5.0.0",
+        "regenerator-runtime": "^0.13.5",
         "rxjs": "^6.3.3",
         "yup": "^0.28.1"
     },

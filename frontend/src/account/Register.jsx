@@ -7,19 +7,20 @@ import { accountService, alertService } from '@/_services';
 
 function Register({ history }) {
   const initialValues = {
-    title: '',
-    firstName: '',
-    lastName: '',
+    username: '',
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
     confirmPassword: '',
     acceptTerms: false,
-    location: ''
+    location: 'other'
   };
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required('First Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
+    username: Yup.string().required('Username is required'),
+    first_name: Yup.string().required('First Name is required'),
+    last_name: Yup.string().required('Last Name is required'),
     email: Yup.string().email('Email is invalid').required('Email is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
@@ -60,19 +61,35 @@ function Register({ history }) {
         <Form>
           <h3 className='card-header'>Register</h3>
           <div className='card-body'>
+          <div className='form-group'>
+                <label>Username</label>
+                <Field
+                  name='username'
+                  type='text'
+                  className={
+                    'form-control' +
+                    (errors.username && touched.username? ' is-invalid' : '')
+                  }
+                />
+                <ErrorMessage
+                  name='username'
+                  component='div'
+                  className='invalid-feedback'
+                />
+              </div>
             <div className='form-row'>
               <div className='form-group col-5'>
                 <label>First Name</label>
                 <Field
-                  name='firstName'
+                  name='first_name'
                   type='text'
                   className={
                     'form-control' +
-                    (errors.firstName && touched.firstName ? ' is-invalid' : '')
+                    (errors.first_name && touched.first_name ? ' is-invalid' : '')
                   }
                 />
                 <ErrorMessage
-                  name='firstName'
+                  name='first_name'
                   component='div'
                   className='invalid-feedback'
                 />
@@ -80,15 +97,15 @@ function Register({ history }) {
               <div className='form-group col-5'>
                 <label>Last Name</label>
                 <Field
-                  name='lastName'
+                  name='last_name'
                   type='text'
                   className={
                     'form-control' +
-                    (errors.lastName && touched.lastName ? ' is-invalid' : '')
+                    (errors.last_name && touched.last_name ? ' is-invalid' : '')
                   }
                 />
                 <ErrorMessage
-                  name='lastName'
+                  name='last_name'
                   component='div'
                   className='invalid-feedback'
                 />

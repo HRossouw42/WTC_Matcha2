@@ -9,8 +9,8 @@ function publicProfile({ history, match }) {
   const viewer = accountService.userValue;
 
   const initialValues = {
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     email: '',
     likes: '',
   };
@@ -59,9 +59,9 @@ function publicProfile({ history, match }) {
 
   return (
     <div>
-      <h1> {user.firstName}'s Profile</h1>
+      <h1> {user.first_name}'s Profile</h1>
       <p>
-        <strong>Name: </strong> {user.title} {user.firstName} {user.lastName}
+        <strong>Name: </strong> {user.title} {user.first_name} {user.last_name}
         <br />
         <strong>Age: </strong> {user.age}
         <br />

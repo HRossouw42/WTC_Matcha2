@@ -14,8 +14,6 @@ function VerifyEmail({ history }) {
 
     useEffect(() => {
         const { token } = queryString.parse(location.search);
-
-        // remove token from url to prevent http referer leakage
         history.replace(location.pathname);
 
         accountService.verifyEmail(token)
@@ -45,4 +43,4 @@ function VerifyEmail({ history }) {
     )
 }
 
-export { VerifyEmail }; 
+export { VerifyEmail }
