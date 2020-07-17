@@ -21,21 +21,31 @@ function Home({ match }) {
       .getAll()
       .then((data) => {
         //TODO: take into account homo/hetero before loading data
-        const compiledData = data.map((obj) => {
-          return {
-            id: obj.id,
-            firstName: obj.firstName,
-            lastName: obj.lastName,
-            gender: obj.gender,
-            location: obj.location,
-            fame: obj.fame,
-            age: obj.age,
-            smoking: obj.smoking,
-            drinking: obj.drinking,
-            religion: obj.religion,
-            pets: obj.pets,
-            children: obj.children,
-          };
+        //TODO: take into account user location
+        const compiledData = [];
+        console.log(data);
+        data.map((obj) => {
+          if (
+            obj.fame <= 10 ||
+            obj.location === 'Western Cape' ||
+            obj.gender === 'female'
+          ) {
+            let newObj = {
+              id: obj.id,
+              firstName: obj.firstName,
+              lastName: obj.lastName,
+              gender: obj.gender,
+              location: obj.location,
+              fame: obj.fame,
+              age: obj.age,
+              smoking: obj.smoking,
+              drinking: obj.drinking,
+              religion: obj.religion,
+              pets: obj.pets,
+              children: obj.children,
+            };
+            compiledData.push(newObj);
+          }
         });
         setUsers(compiledData);
         setResetUsers(compiledData);
@@ -60,7 +70,7 @@ function Home({ match }) {
     } else {
       resetUsers.map((user) => {
         if (
-          user.firstName === query ||
+          user.fame === query ||
           user.lastName === query ||
           user.gender === query ||
           user.location === query ||

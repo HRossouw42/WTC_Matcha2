@@ -5,8 +5,40 @@ import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import geolocator from 'geolocator';
+import { useDropzone } from 'react-dropzone';
 
 import { accountService, alertService } from '@/_services';
+
+const thumbsContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  marginTop: 16,
+};
+
+const thumb = {
+  display: 'inline-flex',
+  borderRadius: 2,
+  border: '1px solid #eaeaea',
+  marginBottom: 8,
+  marginRight: 8,
+  width: 100,
+  height: 100,
+  padding: 4,
+  boxSizing: 'border-box',
+};
+
+const thumbInner = {
+  display: 'flex',
+  minWidth: 0,
+  overflow: 'hidden',
+};
+
+const img = {
+  display: 'block',
+  width: 'auto',
+  height: '100%',
+};
 
 function Update({ history }) {
   const user = accountService.userValue;
@@ -85,6 +117,28 @@ function Update({ history }) {
         .then(() => alertService.success('Account deleted successfully'));
     }
   }
+
+  const [files, setFiles] = useState([]);
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+  });
+
+  const thumbs = files.map((file) => (
+    <div style={thumb} key={file.name}>
+      <div style={thumbInner}>
+        <img src={file.preview} style={img} />
+      </div>
+    </div>
+  ));
 
   return (
     <Formik
@@ -230,16 +284,16 @@ function Update({ history }) {
                   (errors.location && touched.location ? ' is-invalid' : '')
                 }
               >
-                <option value='1'>Eastern Cape</option>
-                <option value='2'>Free State</option>
-                <option value='3'>Gauteng</option>
-                <option value='4'>KwaZulu-Natal</option>
-                <option value='5'>Limpopo</option>
-                <option value='6'>Mpumalanga</option>
-                <option value='7'>Northern Cape</option>
-                <option value='8'>North-West</option>
-                <option value='9'>Western Cape</option>
-                <option value='9'>Other</option>
+                <option value='Eastern Cape'>Eastern Cape</option>
+                <option value='Free State'>Free State</option>
+                <option value='Gauteng'>Gauteng</option>
+                <option value='KwaZulu-Natal'>KwaZulu-Natal</option>
+                <option value='Limpopo'>Limpopo</option>
+                <option value='Mpumalanga'>Mpumalanga</option>
+                <option value='Northern Cape'>Northern Cape</option>
+                <option value='North-West'>North-West</option>
+                <option value='Western Cape'>Western Cape</option>
+                <option value='Other'>Other</option>
               </Field>
               <ErrorMessage
                 name='location'
@@ -414,6 +468,17 @@ function Update({ history }) {
               component='div'
               className='invalid-feedback'
             />
+          </div>
+          <div className='form-group'>
+            <h1>Picture Upload</h1>
+            <section className='container'>
+              <div {...getRootProps({ className: 'dropzone' })}>
+                <input {...getInputProps()} />
+                <p>[Drag 'n' drop some files here, or click to select files]</p>
+              </div>
+              <aside style={thumbsContainer}>{thumbs}</aside>
+              <strong>The first pic will be your profile picture!</strong>
+            </section>
           </div>
           {/* Submit Buttons */}
           <div className='form-group'>

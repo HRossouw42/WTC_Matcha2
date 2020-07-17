@@ -1,32 +1,78 @@
-//TODO: Link update with services
+import React, { useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 
-import React, { useState } from 'react';
+const thumbsContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  marginTop: 16,
+};
 
-import { accountService, alertService } from '@/_services';
-import Dropzone from 'react-dropzone';
+const thumb = {
+  display: 'inline-flex',
+  borderRadius: 2,
+  border: '1px solid #eaeaea',
+  marginBottom: 8,
+  marginRight: 8,
+  width: 100,
+  height: 100,
+  padding: 4,
+  boxSizing: 'border-box',
+};
 
-function ImageUpload({ history }) {
-  const user = accountService.userValue;
-  const initialValues = {};
+const thumbInner = {
+  display: 'flex',
+  minWidth: 0,
+  overflow: 'hidden',
+};
 
-  //
+const img = {
+  display: 'block',
+  width: 'auto',
+  height: '100%',
+};
+
+function ImageUpload(props) {
+  const [files, setFiles] = useState([]);
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+  });
+
+  const thumbs = files.map((file) => (
+    <div style={thumb} key={file.name}>
+      <div style={thumbInner}>
+        <img src={file.preview} style={img} />
+      </div>
+    </div>
+  ));
+
+  useEffect(
+    () => () => {
+      // Make sure to revoke the data uris to avoid memory leaks
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    },
+    [files]
+  );
+
   return (
-    <div className='btn w-50 mx-auto'>
-      <Dropzone
-        onDrop={(acceptedFiles) => console.log(acceptedFiles)}
-        accept={'image/*'}
-      >
-        {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              <div>
-                Drag 'n' drop a photo here, or click to select from your files
-              </div>
-            </div>
-          </section>
-        )}
-      </Dropzone>
+    <div>
+      <section className='container'>
+        <div {...getRootProps({ className: 'dropzone' })}>
+          <input {...getInputProps()} />
+          <p>[Drag 'n' drop some files here, or click to select files]</p>
+        </div>
+        <aside style={thumbsContainer}>{thumbs}</aside>
+        <strong>The first pic will be your profile picture!</strong>
+      </section>
     </div>
   );
 }
