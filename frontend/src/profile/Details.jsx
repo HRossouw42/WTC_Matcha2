@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, render } from 'react-router-dom';
+import Carousel from './Carousel';
 
 import { accountService } from '@/_services';
 
@@ -45,6 +46,9 @@ function Details({ match }) {
       </p>
       <p>
         <Link to={`${path}/update`}>Update Profile</Link>
+        <div className='w-50 mx-auto'>
+          <Carousel />
+        </div>
       </p>
     </div>
   );

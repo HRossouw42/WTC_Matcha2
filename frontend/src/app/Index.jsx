@@ -26,6 +26,7 @@ function App() {
 
     geolocator.locateByIP(options, function (err, location) {
       console.log(err || `City location is ${location.address.city}`);
+      console.log(location)
       // console.log(`City location is ${location.address.city}`);
     });
 

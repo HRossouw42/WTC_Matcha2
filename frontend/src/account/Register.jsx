@@ -14,6 +14,7 @@ function Register({ history }) {
     password: '',
     confirmPassword: '',
     acceptTerms: false,
+    location: ''
   };
 
   const validationSchema = Yup.object().shape({
