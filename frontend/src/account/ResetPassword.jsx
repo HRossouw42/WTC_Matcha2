@@ -4,32 +4,32 @@ import queryString from 'query-string';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { accountService, alertService } from '@/_services';
+import { accountService, alertService } from '@/_services'
 
 function ResetPassword({ history }) {
-    const TokenStatus = {
-        Validating: 'Validating',
-        Valid: 'Valid',
-        Invalid: 'Invalid'
-    }
-    
+    // const TokenStatus = {
+    //     Validating: 'Validating',
+    //     Valid: 'Valid',
+    //     Invalid: 'Invalid'
+    // }
+    // const [tokenStatus, setTokenStatus] = useState(TokenStatus.Validating);
     const [token, setToken] = useState(null);
-    const [tokenStatus, setTokenStatus] = useState(TokenStatus.Validating);
-
     useEffect(() => {
         const { token } = queryString.parse(location.search);
+        setToken(token)
+        // console.log(token)
 
-        // remove token from url to prevent http referer leakage
+    //     // remove token from url to prevent http referer leakage
         history.replace(location.pathname);
 
-        accountService.validateResetToken(token)
-            .then(() => {
-                setToken(token);
-                setTokenStatus(TokenStatus.Valid);
-            })
-            .catch(() => {
-                setTokenStatus(TokenStatus.Invalid);
-            });
+    //     accountService.validateResetToken(token)
+    //         .then(() => {
+    //             setToken(token);
+    //             setTokenStatus(TokenStatus.Valid);
+    //         })
+    //         .catch(() => {
+    //             setTokenStatus(TokenStatus.Invalid);
+    //         });
     }, []);
 
     function getForm() {
@@ -47,9 +47,10 @@ function ResetPassword({ history }) {
                 .required('Confirm Password is required'),
         });
 
-        function onSubmit({ password, confirmPassword }, { setSubmitting }) {
+        function onSubmit({ password }, { setSubmitting }) {
+            console.log(password, token)
             alertService.clear();
-            accountService.resetPassword({ token, password, confirmPassword })
+            accountService.resetPassword({ token, password })
                 .then(() => {
                     alertService.success('Password reset successful, you can now login', { keepAfterRouteChange: true });
                     history.push('login');
@@ -90,14 +91,14 @@ function ResetPassword({ history }) {
     }
 
     function getBody() {
-        switch (tokenStatus) {
-            case TokenStatus.Valid:
+        // switch (tokenStatus) {
+        //     case TokenStatus.Valid:
                 return getForm();
-            case TokenStatus.Invalid:
-                return <div>Token validation failed, if the token has expired you can get a new one at the <Link to="forgot-password">forgot password</Link> page.</div>;
-            case TokenStatus.Validating:
-                return <div>Validating token...</div>;
-        }
+            // case TokenStatus.Invalid:
+            //     return <div>Token validation failed, if the token has expired you can get a new one at the <Link to="forgot-password">forgot password</Link> page.</div>;
+            // case TokenStatus.Validating:
+            //     return <div>Validating token...</div>;
+        
     }
 
     return (

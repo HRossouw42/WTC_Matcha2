@@ -16,10 +16,7 @@ function Update({ history }) {
     email: user.email,
     gender: user.gender,
     orientation: user.orientation,
-<<<<<<< HEAD
     location: user.location,
-=======
->>>>>>> 6309eead73a10fc5cd0e5f229a1effeb675c2381
     smoking: user.smoking,
     drinking: user.drinking,
     religion: user.religion,
@@ -38,7 +35,7 @@ function Update({ history }) {
     email: Yup.string().email('Email is invalid').required('Email is required'),
     gender: Yup.string().required('Gender is required'),
     orientation: Yup.string().required('Orientation is required'),
-    location: Yup.string().required('Location is required'),
+    // location: Yup.string().required('Location is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: Yup.string()
       .when('password', (password, schema) => {
@@ -149,50 +146,6 @@ function Update({ history }) {
               component='div'
               className='invalid-feedback'
             />
-          </div>
-          {/* gender */}
-          <div className='form-group'>
-              <label>Gender</label>
-              <Field
-                name='gender'
-                as='select'
-                className={
-                  'form-control' +
-                  (errors.gender && touched.gender ? ' is-invalid' : '')
-                }
-              >
-                <option value=''></option>
-                <option value='male'>male</option>
-                <option value='female'>female</option>
-                <option value='nonbinary'>nonbinary</option>
-              </Field>
-              <ErrorMessage
-                name='gender'
-                component='div'
-                className='invalid-feedback'
-              />
-          </div>
-          {/* orientation */}
-          <div className='form-group'>
-              <label>Orientation</label>
-              <Field
-                name='orientation'
-                as='select'
-                className={
-                  'form-control' +
-                  (errors.orientation && touched.orientation ? ' is-invalid' : '')
-                }
-              >
-                <option value=''></option>
-                <option value='heterosexual'>heterosexual</option>
-                <option value='homosexual'>homosexual</option>
-                <option value='any'>any</option>
-              </Field>
-              <ErrorMessage
-                name='orientation'
-                component='div'
-                className='invalid-feedback'
-              />
           </div>
           {/* Passwords */}
           <h3 className='pt-3'>Change Password</h3>

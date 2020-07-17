@@ -12,9 +12,9 @@ export const accountService = {
     logout,
     // refreshToken,
     register,
-    verifyEmail,
+    // verifyEmail,
     forgotPassword,
-    validateResetToken,
+    // validateResetToken,
     resetPassword,
     getAll,
     getById,
@@ -26,7 +26,7 @@ export const accountService = {
 }
 
 async function login(params) {
-    const token = await ky.post('http://localhost:3001/login', { json: params }).then(resp => resp.text())
+    const token = await ky.post('http://localhost:3000/login', { json: params }).then(resp => resp.text())
     if (token){
         const decoded = jwt.verify(token, 'secret')
         const user = {
@@ -59,24 +59,30 @@ function logout() {
 //         });
 // }
 
-function register(params) {
-    return ky.post('http://localhost:3001/signup', { json: params })
+async function register(params) {
+    return await ky.post('http://localhost:3000/register', { json: params })
 }
 
-function verifyEmail(token) {
-    return fetchWrapper.post(`${baseUrl}/verify-email`, { token });
+// function verifyEmail(token) {
+//     return fetchWrapper.post(`${baseUrl}/verify-email`, { token });
+// }
+
+async function forgotPassword ( email ) {
+    return await ky.post('http://localhost:3000/forgot', { body: email } )
 }
 
-function forgotPassword(email) {
-    return fetchWrapper.post(`${baseUrl}/forgot-password`, { email });
-}
+// function validateResetToken(token) {
+//     return fetchWrapper.post(`${baseUrl}/validate-reset-token`, { token });
+// }
 
-function validateResetToken(token) {
-    return fetchWrapper.post(`${baseUrl}/validate-reset-token`, { token });
-}
-
-function resetPassword({ token, password, confirmPassword }) {
-    return fetchWrapper.post(`${baseUrl}/reset-password`, { token, password, confirmPassword });
+async function resetPassword( token, password ) {
+    // return fetchWrapper.post(`${baseUrl}/reset-password`, { token, password, confirmPassword });
+    // /forgot
+    // params = {
+    //     token: token,
+    //     password: password
+    // }{json: {foo: true}}
+    return await ky.post('http://localhost:3000/reset', {json: { token, password }})
 }
 
 function getAll() {
@@ -91,8 +97,8 @@ function create(params) {
     return fetchWrapper.post(baseUrl, params);
 }
 
-function update(params) {
-    console.log(params)
+async function update(params) {
+    await ky.post('http://localhost:3000/profile', { json: params }).then(resp => resp.json())
     // return fetchWrapper.put(`${baseUrl}/${id}`, params)
     //     .then(user => {
     //         // update stored user if the logged in user updated their own record

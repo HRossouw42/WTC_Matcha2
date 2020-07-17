@@ -15,10 +15,6 @@ function Details({ match }) {
         <br />
         <strong>Age: </strong> {user.age}
         <br />
-        <strong>Gender: </strong> {user.gender}
-        <br />
-        <strong>Orientation: </strong> {user.orientation}
-        <br />
         <strong>Location: </strong> {user.location}
         <br />
         <strong>Email: </strong> {user.email}

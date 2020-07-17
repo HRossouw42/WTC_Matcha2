@@ -11,6 +11,15 @@ export async function create (ctx: any){
     const { email, password } = ctx.request.body
     const User = await user(email)
 
+    // check if email exists
+    if (!User) {
+        return ctx.status = 400
+    }
+
+    if (!User.confirmed) {
+        return ctx.status = 401
+    }
+
     const passwordValid = await bcrypt.compare(password, User.password)
 
     if (passwordValid){

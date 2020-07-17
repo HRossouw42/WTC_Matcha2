@@ -5,6 +5,7 @@ export async function update (ctx: any){
     const profile = {
         email: ctx.request.body.email,  //TODO: get email from token
         gender: ctx.request.body.gender,
+        age: ctx.request.body.age,
         orientation: ctx.request.body.orientation,
         bio: ctx.request.body.bio,
         picture_1: ctx.request.body.picture_1,
