@@ -34,15 +34,15 @@ const img = {
 
 function ImageUpload(props) {
   const [files, setFiles] = useState([]);
-  const { getRootProps, getInputProps } = useDropzone({
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: (acceptedFiles) => {
       setFiles(
-        acceptedFiles.map((file) =>
+        acceptedFiles.map((file) => {
           Object.assign(file, {
             preview: URL.createObjectURL(file),
-          })
-        )
+          });
+        })
       );
     },
   });

@@ -21,12 +21,11 @@ function App() {
     const subscription = accountService.user.subscribe((x) => setUser(x));
 
     geolocator.locate(options, function (err, location) {
-      console.log(err || location);
+      console.log(err || 'Location Services Running');
     });
 
     geolocator.locateByIP(options, function (err, location) {
       console.log(err || `City location is ${location.address.city}`);
-      console.log(location)
     });
 
     return subscription.unsubscribe;

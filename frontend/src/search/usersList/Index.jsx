@@ -238,11 +238,11 @@ function UsersList({ match }) {
                 <td>{user.location}</td>
                 <td>{user.fame}</td>
                 <td>{user.age}</td>
-                <td>{user.smoking}</td>
-                <td>{user.drinking}</td>
-                <td>{user.religion}</td>
-                <td>{user.pets}</td>
-                <td>{user.children}</td>
+                <td>{user.smoking ? 'Yes' : 'No'}</td>
+                <td>{user.drinking ? 'Yes' : 'No'}</td>
+                <td>{user.religion ? 'Yes' : 'No'}</td>
+                <td>{user.pets ? 'Yes' : 'No'}</td>
+                <td>{user.children ? 'Yes' : 'No'}</td>
               </tr>
             ))}
           {!users && (

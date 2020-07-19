@@ -65,28 +65,30 @@ function publicProfile({ history, match }) {
         <br />
         <strong>Age: </strong> {user.age}
         <br />
-        <strong>Email: </strong> {user.email}
+        {/* <strong>Email: </strong> {user.email} */}
         <br />
       </p>
       <p style={{ textTransform: 'capitalize' }}>
         <strong>Gender: </strong> {user.gender}
         <br />
+        <td>{user.location}</td>
+        <br />
         <strong>Orientation: </strong> {user.orientation}
         <br />
       </p>
       <p style={{ textTransform: 'capitalize' }}>
-        <strong>Smoking: </strong> {user.smoking}
+        <strong>Smoking: </strong> {user.smoking ? 'Yes' : 'No'}
         <br />
         <strong>Drinking: </strong>
-        {user.drinking}
+        {user.drinking ? 'Yes' : 'No'}
         <br />
         <strong>Religious: </strong>
-        {user.religion}
+        {user.religion ? 'Yes' : 'No'}
         <br />
         <strong>Pets: </strong>
-        {user.pets}
+        {user.pets ? 'Yes' : 'No'}
         <br />
-        <strong>Children: </strong> {user.children}
+        <strong>Children: </strong> {user.children ? 'Yes' : 'No'}
       </p>
       <p>
         <strong>Fame:</strong>
