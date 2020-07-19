@@ -22,6 +22,7 @@ export async function create (ctx: any){
 
     if (passwordValid){
         const token = jwt.sign({
+            id: User.id,
             email: User.email,
             first_name: User.first_name,
             last_name: User.last_name

@@ -24,6 +24,7 @@ async function login(params) {
     if (token){
         const decoded = jwt.verify(token, 'secret')
         const user = {
+            id: decoded.id,
             first_name: decoded.first_name,
             last_name: decoded.last_name,
             email: decoded.email,
