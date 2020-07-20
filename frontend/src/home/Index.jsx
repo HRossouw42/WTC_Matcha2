@@ -7,52 +7,134 @@ import { accountService, alertService } from '@/_services';
 
 function Home({ match }) {
   const { path } = '';
-  const user = accountService.userValue;
+
+  //logged in user data
+  const userStart = accountService.userValue;
+  const [user, setUser] = useState(userStart);
 
   //backend data
   const [users, setUsers] = useState(null);
+  let male = 'male';
+  let female = 'female';
+
   //sorting
   // const [items, requestSort] = useSortableData(null);
   let sortDirection = 'ascending';
   const [sortedField, setSortedField] = useState(sortDirection);
 
   useEffect(() => {
-    accountService
-      .getAll()
-      .then((data) => {
-        //TODO: take into account homo/hetero before loading data
-        //TODO: take into account user location
-        const compiledData = [];
-        // console.log(data);
-        data.map((obj) => {
-          if (
-            obj.likes <= 10 ||
-            obj.location === 'Western Cape' ||
-            obj.gender === 'female'
-          ) {
-            let newObj = {
-              id: obj.id,
-              first_name: obj.first_name,
-              last_name: obj.last_name,
-              gender: obj.gender,
-              location: obj.location,
-              likes: obj.likes,
-              age: obj.age,
-              smoking: obj.smoking,
-              drinking: obj.drinking,
-              religion: obj.religion,
-              pets: obj.pets,
-              children: obj.children,
-            };
-            compiledData.push(newObj);
-          }
-        });
-        setUsers(compiledData);
-        setResetUsers(compiledData);
-      })
-      .catch((error) => {
-        alertService.error(error);
+    async function fetchData() {
+      let userValues = await accountService.userValue;
+      accountService.getById(userValues.id).then((data) => {
+        setUser(data);
+        getSuggestions(data);
       });
+    }
+
+    function getSuggestions(userValue) {
+      console.log(userValue);
+      accountService
+        .getAll()
+        .then((data) => {
+          //TODO: take into account homo/hetero before loading data
+          //TODO: take into account user location
+          const compiledData = [];
+          let count = 0;
+
+          //looking for female
+          if (
+            (userValue.gender == 'female' &&
+              userValue.orientation == 'homosexual') ||
+            (userValue.gender == 'male' &&
+              userValue.orientation == 'heterosexual')
+          ) {
+            data.map((obj) => {
+              if (
+                count < 5 &&
+                obj.likes >= 30 &&
+                (obj.gender == 'female' || obj.gender == 'nonbinary')
+              ) {
+                let newObj = {
+                  id: obj.id,
+                  first_name: obj.first_name,
+                  last_name: obj.last_name,
+                  gender: obj.gender,
+                  location: obj.location,
+                  likes: obj.likes,
+                  age: obj.age,
+                  smoking: obj.smoking,
+                  drinking: obj.drinking,
+                  religion: obj.religion,
+                  pets: obj.pets,
+                  children: obj.children,
+                };
+                compiledData.push(newObj);
+                count++;
+              }
+            });
+          } else if (
+            (userValue.gender == 'male' &&
+              userValue.orientation == 'homosexual') ||
+            (userValue.gender == 'female' &&
+              userValue.orientation == 'heterosexual')
+          ) {
+            data.map((obj) => {
+              //looking for male
+              if (
+                count < 5 &&
+                obj.likes >= 30 &&
+                (obj.gender == 'male' || obj.gender == 'nonbinary')
+              ) {
+                let newObj = {
+                  id: obj.id,
+                  first_name: obj.first_name,
+                  last_name: obj.last_name,
+                  gender: obj.gender,
+                  location: obj.location,
+                  likes: obj.likes,
+                  age: obj.age,
+                  smoking: obj.smoking,
+                  drinking: obj.drinking,
+                  religion: obj.religion,
+                  pets: obj.pets,
+                  children: obj.children,
+                };
+                compiledData.push(newObj);
+                count++;
+              }
+            });
+          } else {
+            data.map((obj) => {
+              if (count < 5 && obj.likes >= 30) {
+                let newObj = {
+                  id: obj.id,
+                  first_name: obj.first_name,
+                  last_name: obj.last_name,
+                  gender: obj.gender,
+                  location: obj.location,
+                  likes: obj.likes,
+                  age: obj.age,
+                  smoking: obj.smoking,
+                  drinking: obj.drinking,
+                  religion: obj.religion,
+                  pets: obj.pets,
+                  children: obj.children,
+                };
+                compiledData.push(newObj);
+                count++;
+              }
+            });
+          }
+
+          setUsers(compiledData);
+          setResetUsers(compiledData);
+        })
+        .catch((error) => {
+          alertService.error(error);
+        });
+    }
+
+    fetchData();
   }, []);
 
   const initialValues = {

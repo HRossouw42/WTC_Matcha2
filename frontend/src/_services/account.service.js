@@ -33,6 +33,8 @@ async function login(params) {
       last_name: decoded.last_name,
       email: decoded.email,
       token: token,
+      gender: decoded.gender,
+      orientation: decoded.orientation,
     };
     userSubject.next(user);
     return user;
