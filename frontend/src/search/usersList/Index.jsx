@@ -29,7 +29,7 @@ function UsersList({ match }) {
             last_name: obj.last_name,
             gender: obj.gender,
             location: obj.location,
-            fame: obj.fame,
+            likes: obj.likes,
             age: obj.age,
             smoking: obj.smoking,
             drinking: obj.drinking,
@@ -183,7 +183,7 @@ function UsersList({ match }) {
               </button>
             </th>
             <th style={{ width: '10%' }}>
-              <button type='button' onClick={() => requestSort('fame')}>
+              <button type='button' onClick={() => requestSort('likes')}>
                 Fame
               </button>
             </th>
@@ -236,7 +236,7 @@ function UsersList({ match }) {
                 </td>
                 <td>{user.gender}</td>
                 <td>{user.location}</td>
-                <td>{user.fame}</td>
+                <td>{user.likes}</td>
                 <td>{user.age}</td>
                 <td>{user.smoking ? 'Yes' : 'No'}</td>
                 <td>{user.drinking ? 'Yes' : 'No'}</td>

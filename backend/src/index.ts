@@ -27,7 +27,6 @@ export const knex = Knex({
 const app = new koa()
 app.use(cors())
 app.use(bodyParser())
-
 knex.migrate.latest()
 app.use(router.routes());
 app.listen(3000);

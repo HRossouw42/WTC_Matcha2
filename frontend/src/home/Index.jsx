@@ -23,20 +23,20 @@ function Home({ match }) {
         //TODO: take into account homo/hetero before loading data
         //TODO: take into account user location
         const compiledData = [];
-        console.log(data);
+        // console.log(data);
         data.map((obj) => {
           if (
-            obj.fame <= 10 ||
+            obj.likes <= 10 ||
             obj.location === 'Western Cape' ||
             obj.gender === 'female'
           ) {
             let newObj = {
               id: obj.id,
-              firstName: obj.firstName,
-              lastName: obj.lastName,
+              first_name: obj.first_name,
+              last_name: obj.last_name,
               gender: obj.gender,
               location: obj.location,
-              fame: obj.fame,
+              likes: obj.likes,
               age: obj.age,
               smoking: obj.smoking,
               drinking: obj.drinking,
@@ -70,7 +70,7 @@ function Home({ match }) {
       resetUsers.map((user) => {
         if (
           user.fame === query ||
-          user.lastName === query ||
+          user.last_name === query ||
           user.gender === query ||
           user.location === query ||
           user.age === query
@@ -165,7 +165,7 @@ function Home({ match }) {
                     {user.first_name} {user.last_name}
                   </td>
                   <td>{user.gender}</td>
-                  <td>{user.fame}</td>
+                  <td>{user.likes}</td>
                   <td>{user.age}</td>
                 </tr>
               ))}

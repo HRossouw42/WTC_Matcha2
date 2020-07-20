@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, render } from 'react-router-dom';
-import Carousel from './Carousel';
+// import Carousel from './Carousel';
+import { Carousel } from 'react-responsive-carousel';
 
 import { accountService } from '@/_services';
 
@@ -16,6 +17,11 @@ function Details({ match }) {
     fame: '',
     gender: '',
     orientation: '',
+    picture_1: '',
+    picture_2: '',
+    picture_3: '',
+    picture_4: '',
+    picture_5: '',
     smoking: '',
     drinking: '',
     religion: '',
@@ -79,8 +85,25 @@ function Details({ match }) {
       <div>
         <Link to={`${path}/update`}>Update Profile</Link>
         <div className='w-50 mx-auto'>
-          <Link to={`${path}/image`}>Update Photos</Link>
-          <Carousel />
+          {/* <Link to={`${path}/image`}>Update Photos</Link> */}
+          <Carousel autoPlay>
+            <div>
+              <img alt='' src= {user.picture_1}/>
+              <p className='legend'>Profile Pic</p>
+            </div>
+            <div>
+              <img alt='' src={user.picture_2} />
+              </div>
+            <div>
+              <img alt='' src={user.picture_3} />
+            </div>
+            <div>
+              <img alt='' src={user.picture_4} />
+            </div>
+            <div>
+              <img alt='' src={user.picture_5} />
+            </div>
+          </Carousel>
         </div>
       </div>
     </div>

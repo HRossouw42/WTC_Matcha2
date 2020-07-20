@@ -71,8 +71,6 @@ async function getById(id) {
 }
 
 async function update(params) {
-  console.log(params);
-
   params.token = accountService.userValue.token;
   const result = await ky
     .post('http://localhost:3000/profile', { json: params })
