@@ -44,9 +44,9 @@ function Home({ match }) {
           //looking for female
           if (
             (userValue.gender == 'female' &&
-              userValue.orientation == 'homosexual') ||
+              userValue.preference == 'male') ||
             (userValue.gender == 'male' &&
-              userValue.orientation == 'heterosexual')
+              userValue.preference == 'female')
           ) {
             data.map((obj) => {
               if (
@@ -74,9 +74,9 @@ function Home({ match }) {
             });
           } else if (
             (userValue.gender == 'male' &&
-              userValue.orientation == 'homosexual') ||
+              userValue.preference == 'male') ||
             (userValue.gender == 'female' &&
-              userValue.orientation == 'heterosexual')
+              userValue.preference == 'female')
           ) {
             data.map((obj) => {
               //looking for male

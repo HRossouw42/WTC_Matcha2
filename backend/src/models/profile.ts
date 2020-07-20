@@ -10,11 +10,11 @@ export async function Profile (profile: any): Promise<boolean>{
             profile.gender, profile.email)
         }
 
-        if (profile.orientation){
+        if (profile.preference){
             db.run(`UPDATE user_profile\
-            SET orientation = (?)\
+            SET preference = (?)\
             WHERE user_email = (?)`,
-            profile.orientation, profile.email)
+            profile.preference, profile.email)
         }
         if (profile.age){
             db.run(`UPDATE user_profile\

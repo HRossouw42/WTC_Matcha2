@@ -73,7 +73,7 @@ function publicProfile({ history, match }) {
         <br />
         <td>{user.location}</td>
         <br />
-        <strong>Orientation: </strong> {user.orientation}
+        <strong>preference: </strong> {user.preference}
         <br />
       </p>
       <p style={{ textTransform: 'capitalize' }}>

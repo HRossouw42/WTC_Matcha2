@@ -13,8 +13,8 @@ exports.seed = async function(knex, Promise) {
 
       let email = faker.internet.email()
       let username = faker.internet.userName()
-      let first_name = faker.name.first_name()
-      let last_name = faker.name.last_name()
+      let first_name = faker.name.firstName()
+      let last_name = faker.name.lastName()
       let password = hashedPassword
       let role = 'user'
       let confirmed = 1

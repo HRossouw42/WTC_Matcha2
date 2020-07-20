@@ -34,7 +34,7 @@ async function login(params) {
       email: decoded.email,
       token: token,
       gender: decoded.gender,
-      orientation: decoded.orientation,
+      preference: decoded.preference,
     };
     userSubject.next(user);
     return user;
@@ -78,7 +78,7 @@ async function update(params) {
     .post('http://localhost:3000/profile', { json: params })
     .then((resp) => resp.status);
   if (result == 200) {
-    accountService.userValue.orientation = params.orientation;
+    accountService.userValue.preference = params.preference;
     accountService.userValue.username = params.username;
     accountService.userValue.age = params.age;
     accountService.userValue.gender = params.gender;

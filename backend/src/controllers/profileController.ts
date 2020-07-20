@@ -15,7 +15,7 @@ export async function update (ctx: any){
             email: ctx.request.body.email,
             gender: ctx.request.body.gender,
             age: ctx.request.body.age,
-            orientation: ctx.request.body.orientation,
+            preference: ctx.request.body.preference,
             bio: ctx.request.body.bio,
             picture_1: ctx.request.body.picture_1,
             picture_2: ctx.request.body.picture_2,

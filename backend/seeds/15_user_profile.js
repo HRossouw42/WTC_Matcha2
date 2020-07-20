@@ -21,7 +21,7 @@ exports.seed = async function(knex, Promise) {
   }
 
   const genderSelect = ['male', 'female', 'nonbinary']
-  const orientationSelect = ['any', 'homosexual', 'heterosexual']
+  const preferenceSelect = ['any', 'male', 'female']
   const locationSelect = ['Eastern Cape', 'Free State', 'Gauteng', 'KwaZulu-Natal', 'Limpopo', 'Mpumalanga', 'Northern Cape', 'North-West', 'Western Cape', 'Other']
 
 
@@ -31,7 +31,7 @@ exports.seed = async function(knex, Promise) {
     for (let i=450; i < 500; i++) {
       let user_email = users[i].email
       let gender = genderSelect[getRandomInt(0, 2)]
-      let orientation = orientationSelect[getRandomInt(0, 2)]
+      let preference = preferenceSelect[getRandomInt(0, 2)]
       let bio = faker.lorem.paragraph()
       let picture_1 = faker.image.avatar()
       let picture_2 = faker.image.business()
@@ -51,7 +51,7 @@ exports.seed = async function(knex, Promise) {
       profile.push({
         user_email: user_email,
         gender: gender,
-        orientation: orientation,
+        preference: preference,
         bio: bio,
         picture_1: picture_1,
         picture_2: picture_2,
