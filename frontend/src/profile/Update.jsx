@@ -536,7 +536,10 @@ function FileUpload(props) {
       imgTag.src = event.target.result;
     };
     reader.readAsDataURL(file); // <-
-    form.setFieldValue(field.name, file);
+    // let formData = new FormData();
+    // formData.append('picture_1', file, 'image.png');
+
+    form.setFieldValue(field.name, formData);
   };
 
   return (
