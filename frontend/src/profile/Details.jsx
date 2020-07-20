@@ -16,7 +16,7 @@ function Details({ match }) {
     email: '',
     fame: '',
     gender: '',
-    orientation: '',
+    preference: '',
     picture_1: '',
     picture_2: '',
     picture_3: '',
@@ -60,7 +60,7 @@ function Details({ match }) {
       <p style={{ textTransform: 'capitalize' }}>
         <strong>Gender: </strong> {user.gender}
         <br />
-        <strong>Orientation: </strong> {user.orientation}
+        <strong>Preference: </strong> {user.preference}
         <br />
       </p>
       <p style={{ textTransform: 'capitalize' }}>

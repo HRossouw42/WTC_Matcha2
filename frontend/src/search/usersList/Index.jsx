@@ -28,6 +28,7 @@ function UsersList({ match }) {
             first_name: obj.first_name,
             last_name: obj.last_name,
             gender: obj.gender,
+            preference: obj.preference,
             location: obj.location,
             likes: obj.likes,
             age: obj.age,

@@ -68,7 +68,7 @@ function Update({ history }) {
     age: 18,
     email: user.email,
     gender: user.gender,
-    orientation: user.orientation,
+    preference: user.preference,
     location: '',
     smoking: user.smoking,
     drinking: user.drinking,
@@ -326,8 +326,8 @@ function Update({ history }) {
             </div>
           </div>
 
-          {/* Orientation & Gender */}
-          <h1>Orientation</h1>
+          {/* Preference & Gender */}
+          <h1>Preference</h1>
           <div className='form-row'>
             <div className='form-group col-2'>
               <label>Gender</label>
@@ -353,22 +353,22 @@ function Update({ history }) {
             <div className='form-group col-2'>
               <label>Interested in</label>
               <Field
-                name='orientation'
+                name='preference'
                 as='select'
                 className={
                   'form-control' +
-                  (errors.orientation && touched.orientation
+                  (errors.preference && touched.preference
                     ? ' is-invalid'
                     : '')
                 }
               >
                 <option value=''>Select</option>
-                <option value='any'>Either</option>
-                <option value='homosexual'>Homosexual</option>
-                <option value='heterosexual'>Heterosexual</option>
+                <option value='any'>Any</option>
+                <option value='male'>Male</option>
+                <option value='female'>Female</option>
               </Field>
               <ErrorMessage
-                name='orientation'
+                name='preference'
                 component='div'
                 className='invalid-feedback'
               />
