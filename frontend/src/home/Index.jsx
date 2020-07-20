@@ -43,9 +43,14 @@ function Home({ match }) {
 
           data.map((obj) => {
             if (
-              count < 5 &&
+              count < 10 &&
               obj.likes >= 30 &&
-              obj.gender == userValue.prefence
+              obj.location == userValue.location &&
+              obj.id != userValue.id &&
+              (obj.gender == userValue.preference ||
+                obj.gender == 'nonbinary') &&
+              (obj.preference == userValue.gender ||
+                userValue.gender == 'nonbinary')
             ) {
               let newObj = {
                 id: obj.id,

@@ -4,7 +4,7 @@ exports.up = function (knex) {
         table.string('user_email').primary()
         table.foreign('user_email').references('email').inTable('users')
         table.string('gender')
-        table.string('orientation').defaultTo('any')
+        table.string('preference').defaultTo('any')
         table.string('bio', 500)
         table.blob('picture_1')
         table.blob('picture_2')

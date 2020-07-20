@@ -14,8 +14,8 @@ const pictures = {
   picture_2: '',
   picture_3: '',
   picture_4: '',
-  picture_5: ''
-}
+  picture_5: '',
+};
 
 const thumbsContainer = {
   display: 'flex',
@@ -90,15 +90,12 @@ function Update({ history }) {
     var options = {};
 
     geolocator.locateByIP(options, function (err, location) {
-      try{
-      // console.log(err);
-      setArea(location.address.state);
-      onLocation()
-      } catch(e){
-
-      }
+      try {
+        // console.log(err);
+        setArea(location.address.state);
+        onLocation();
+      } catch (e) {}
     });
-  
   });
 
   const [area, setArea] = useState(null);
@@ -123,11 +120,11 @@ function Update({ history }) {
 
   function onSubmit(fields, { setStatus, setSubmitting }) {
     setStatus();
-    fields.picture_1 = pictures.picture_1
-    fields.picture_2 = pictures.picture_2
-    fields.picture_3 = pictures.picture_3
-    fields.picture_4 = pictures.picture_4
-    fields.picture_5 = pictures.picture_5
+    fields.picture_1 = pictures.picture_1;
+    fields.picture_2 = pictures.picture_2;
+    fields.picture_3 = pictures.picture_3;
+    fields.picture_4 = pictures.picture_4;
+    fields.picture_5 = pictures.picture_5;
 
     accountService
       .update(fields)
@@ -357,9 +354,7 @@ function Update({ history }) {
                 as='select'
                 className={
                   'form-control' +
-                  (errors.preference && touched.preference
-                    ? ' is-invalid'
-                    : '')
+                  (errors.preference && touched.preference ? ' is-invalid' : '')
                 }
               >
                 <option value=''>Select</option>
@@ -539,63 +534,71 @@ function Update({ history }) {
   );
 }
 
-
 function FileUpload(props) {
   const { field, form } = props;
-  
-  function handleChange (e, id){
+
+  function handleChange(e, id) {
     const file = e.currentTarget.files[0];
     const reader = new FileReader();
     const imgTag = document.getElementById(id);
     imgTag.title = file.name;
-    
-    reader.onload = function (event){
+
+    reader.onload = function (event) {
       imgTag.src = event.target.result;
       imgTag.onload = imageIsLoaded;
     };
-    reader.readAsDataURL(file)
-    form.setFieldValue(field.name, file)
+    reader.readAsDataURL(file);
+    form.setFieldValue(field.name, file);
 
-    function imageIsLoaded() { 
-      pictures[id] = imgTag.src
+    function imageIsLoaded() {
+      pictures[id] = imgTag.src;
     }
-  };
+  }
 
   return (
     <div className='w-50 p-3'>
       <input
         type={'file'}
-        onChange={(o) => handleChange(o, document.getElementById('picture_1').id)}
+        onChange={(o) =>
+          handleChange(o, document.getElementById('picture_1').id)
+        }
         className={'form-control'}
       />
       <img src={''} className='img-fluid' alt='upload' id={'picture_1'} />
       <input
         type={'file'}
-        onChange={(o) => handleChange(o, document.getElementById('picture_2').id)}
+        onChange={(o) =>
+          handleChange(o, document.getElementById('picture_2').id)
+        }
         className={'form-control'}
       />
       <img src={''} className='img-fluid' alt='upload' id={'picture_2'} />
       <input
         type={'file'}
-        onChange={(o) => handleChange(o, document.getElementById('picture_3').id)}
+        onChange={(o) =>
+          handleChange(o, document.getElementById('picture_3').id)
+        }
         className={'form-control'}
       />
       <img src={''} className='img-fluid' alt='upload' id={'picture_3'} />
       <input
         type={'file'}
-        onChange={(o) => handleChange(o, document.getElementById('picture_4').id)}
+        onChange={(o) =>
+          handleChange(o, document.getElementById('picture_4').id)
+        }
         className={'form-control'}
       />
       <img src={''} className='img-fluid' alt='upload' id={'picture_4'} />
       <input
         type={'file'}
-        onChange={(o) => handleChange(o, document.getElementById('picture_5').id)}
+        onChange={(o) =>
+          handleChange(o, document.getElementById('picture_5').id)
+        }
         className={'form-control'}
       />
       <img src={''} className='img-fluid' alt='upload' id={'picture_5'} />
     </div>
   );
 }
-
 
 export { Update };

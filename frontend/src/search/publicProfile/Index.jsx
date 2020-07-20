@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { accountService, alertService } from '@/_services';
+import { Carousel } from 'react-responsive-carousel';
 
 function publicProfile({ history, match }) {
   const { id } = match.params;
@@ -59,45 +60,64 @@ function publicProfile({ history, match }) {
 
   return (
     <div>
-      <h1> {user.first_name}'s Profile</h1>
-      <p>
-        <strong>Name: </strong> {user.title} {user.first_name} {user.last_name}
-        <br />
-        <strong>Age: </strong> {user.age}
-        <br />
-        {/* <strong>Email: </strong> {user.email} */}
-        <br />
-      </p>
-      <p style={{ textTransform: 'capitalize' }}>
-        <strong>Gender: </strong> {user.gender}
-        <br />
-        <td>{user.location}</td>
-        <br />
-        <strong>Orientation: </strong> {user.orientation}
-        <br />
-      </p>
-      <p style={{ textTransform: 'capitalize' }}>
-        <strong>Smoking: </strong> {user.smoking ? 'Yes' : 'No'}
-        <br />
-        <strong>Drinking: </strong>
-        {user.drinking ? 'Yes' : 'No'}
-        <br />
-        <strong>Religious: </strong>
-        {user.religion ? 'Yes' : 'No'}
-        <br />
-        <strong>Pets: </strong>
-        {user.pets ? 'Yes' : 'No'}
-        <br />
-        <strong>Children: </strong> {user.children ? 'Yes' : 'No'}
-      </p>
-      <p>
-        <strong>Fame:</strong>
-        {user.likes}
-        <br />
-        <strong>Bio: </strong>
-        {user.bio}
-        <br />
-      </p>
+      <div>
+        <h1> {user.first_name}'s Public Profile</h1>
+        <p>
+          <strong>Name: </strong> {user.first_name} {user.last_name}
+          <br />
+          <strong>Age: </strong> {user.age}
+          <br />
+          <strong>Location: </strong> {user.location}
+          <br />
+        </p>
+        <p style={{ textTransform: 'capitalize' }}>
+          <strong>Gender: </strong> {user.gender}
+          <br />
+          <strong>Preference: </strong> {user.preference}
+          <br />
+        </p>
+        <p style={{ textTransform: 'capitalize' }}>
+          <strong>Smoking: </strong> {user.smoking ? 'Yes' : 'No'}
+          <br />
+          <strong>Drinking: </strong>
+          {user.drinking ? 'Yes' : 'No'}
+          <br />
+          <strong>Religious: </strong>
+          {user.religion ? 'Yes' : 'No'}
+          <br />
+          <strong>Pets: </strong>
+          {user.pets ? 'Yes' : 'No'}
+          <br />
+          <strong>Children: </strong> {user.children ? 'Yes' : 'No'}
+        </p>
+        <p>
+          <strong>Bio: </strong>
+          <br />
+          {user.bio}
+        </p>
+        <div>
+          <div className='w-50 mx-auto'>
+            <Carousel autoPlay>
+              <div>
+                <img alt='' src={user.picture_1} />
+                <p className='legend'>Profile Pic</p>
+              </div>
+              <div>
+                <img alt='' src={user.picture_2} />
+              </div>
+              <div>
+                <img alt='' src={user.picture_3} />
+              </div>
+              <div>
+                <img alt='' src={user.picture_4} />
+              </div>
+              <div>
+                <img alt='' src={user.picture_5} />
+              </div>
+            </Carousel>
+          </div>
+        </div>
+      </div>
       <div>
         <button
           type='button'
