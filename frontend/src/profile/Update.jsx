@@ -9,6 +9,13 @@ import { useDropzone } from 'react-dropzone';
 import Dropzone from 'react-dropzone';
 
 import { accountService, alertService } from '@/_services';
+const pictures = {
+  picture_1: '',
+  picture_2: '',
+  picture_3: '',
+  picture_4: '',
+  picture_5: ''
+}
 
 const thumbsContainer = {
   display: 'flex',
@@ -71,22 +78,27 @@ function Update({ history }) {
     bio: '',
     password: '',
     confirmPassword: '',
-    picture_1: null,
-    picture_2: null,
-    picture_3: null,
-    picture_4: null,
-    picture_5: null,
-    files: [],
+    picture_1: '',
+    picture_2: '',
+    picture_3: '',
+    picture_4: '',
+    picture_5: '',
+    // files: [],
   };
 
   useEffect(() => {
     var options = {};
 
     geolocator.locateByIP(options, function (err, location) {
-      console.log(err);
+      try{
+      // console.log(err);
       setArea(location.address.state);
-      onLocation();
+      onLocation()
+      } catch(e){
+
+      }
     });
+  
   });
 
   const [area, setArea] = useState(null);
@@ -111,8 +123,11 @@ function Update({ history }) {
 
   function onSubmit(fields, { setStatus, setSubmitting }) {
     setStatus();
-    console.log(fields);
-    console.log(fields.picture_1);
+    fields.picture_1 = pictures.picture_1
+    fields.picture_2 = pictures.picture_2
+    fields.picture_3 = pictures.picture_3
+    fields.picture_4 = pictures.picture_4
+    fields.picture_5 = pictures.picture_5
 
     accountService
       .update(fields)
@@ -325,7 +340,7 @@ function Update({ history }) {
                 }
               >
                 <option value=''>Select</option>
-                <option value='non binary'>Non Binary</option>
+                <option value='nonbinary'>Non Binary</option>
                 <option value='male'>Male</option>
                 <option value='female'>Female</option>
               </Field>
@@ -483,11 +498,11 @@ function Update({ history }) {
           {/* Pictures */}
           <div className='form-group'>
             <h1>Picture Uploads</h1>
-            <Field name='picture_1' component={FileUpload} />
-            <Field name='picture_2' component={FileUpload} />
+            <Field name='pictures' component={FileUpload} />
+            {/* <Field name='picture_2' component={FileUpload} />
             <Field name='picture_3' component={FileUpload} />
             <Field name='picture_4' component={FileUpload} />
-            <Field name='picture_5' component={FileUpload} />
+            <Field name='picture_5' component={FileUpload} /> */}
           </div>
           {/* Submit Buttons */}
           <div className='form-group'>
@@ -524,31 +539,63 @@ function Update({ history }) {
   );
 }
 
+
 function FileUpload(props) {
   const { field, form } = props;
-
-  const handleChange = (e) => {
+  
+  function handleChange (e, id){
     const file = e.currentTarget.files[0];
     const reader = new FileReader();
-    const imgTag = document.getElementById('myimage');
+    const imgTag = document.getElementById(id);
     imgTag.title = file.name;
-    reader.onload = function (event) {
+    
+    reader.onload = function (event){
       imgTag.src = event.target.result;
+      imgTag.onload = imageIsLoaded;
     };
-    reader.readAsDataURL(file); // <-
-    form.setFieldValue(field.name, file);
+    reader.readAsDataURL(file)
+    form.setFieldValue(field.name, file)
+
+    function imageIsLoaded() { 
+      pictures[id] = imgTag.src
+    }
   };
 
   return (
     <div className='w-50 p-3'>
       <input
         type={'file'}
-        onChange={(o) => handleChange(o)}
+        onChange={(o) => handleChange(o, document.getElementById('picture_1').id)}
         className={'form-control'}
       />
-      <img src={''} className='img-fluid' alt='upload' id={'myimage'} />
+      <img src={''} className='img-fluid' alt='upload' id={'picture_1'} />
+      <input
+        type={'file'}
+        onChange={(o) => handleChange(o, document.getElementById('picture_2').id)}
+        className={'form-control'}
+      />
+      <img src={''} className='img-fluid' alt='upload' id={'picture_2'} />
+      <input
+        type={'file'}
+        onChange={(o) => handleChange(o, document.getElementById('picture_3').id)}
+        className={'form-control'}
+      />
+      <img src={''} className='img-fluid' alt='upload' id={'picture_3'} />
+      <input
+        type={'file'}
+        onChange={(o) => handleChange(o, document.getElementById('picture_4').id)}
+        className={'form-control'}
+      />
+      <img src={''} className='img-fluid' alt='upload' id={'picture_4'} />
+      <input
+        type={'file'}
+        onChange={(o) => handleChange(o, document.getElementById('picture_5').id)}
+        className={'form-control'}
+      />
+      <img src={''} className='img-fluid' alt='upload' id={'picture_5'} />
     </div>
   );
 }
+
 
 export { Update };
