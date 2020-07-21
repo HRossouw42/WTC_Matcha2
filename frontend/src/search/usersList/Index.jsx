@@ -97,15 +97,27 @@ function UsersList({ match }) {
       direction = 'descending';
     }
 
-    sortedUsers.sort((a, b) => {
-      if (a[key] < b[key]) {
-        return sortedField.direction === 'ascending' ? -1 : 1;
-      }
-      if (a[key] > b[key]) {
-        return sortedField.direction === 'ascending' ? 1 : -1;
-      }
-      return 0;
-    });
+    if (key == 'age' || key == 'likes') {
+      sortedUsers.sort((a, b) => {
+        if (sortedField.direction == 'descending') {
+          return a[key] - b[key];
+        }
+
+        if (sortedField.direction == 'ascending') {
+          return b[key] - a[key];
+        }
+      });
+    } else {
+      sortedUsers.sort((a, b) => {
+        if (a[key] < b[key]) {
+          return sortedField.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return sortedField.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
 
     setUsers(sortedUsers);
     setSortedField({ key, direction });
