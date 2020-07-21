@@ -32,7 +32,6 @@ function Home({ match }) {
     }
 
     function getSuggestions(userValue) {
-      console.log(userValue);
       accountService
         .getAll()
         .then((data) => {
@@ -155,7 +154,11 @@ function Home({ match }) {
     <div className='p-4'>
       <div className='container'>
         <h1>Hi {user.first_name}!</h1>
-        <p>We think you might like...</p>
+        <p>
+          {user.gender
+            ? 'We think you might like...'
+            : 'Please fill out your profile for us to make a matcha'}
+        </p>
       </div>
       <div>
         <table className='table table-striped table-condensed table-responsive'>
