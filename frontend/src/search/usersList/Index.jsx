@@ -143,6 +143,7 @@ function UsersList({ match }) {
               <Field
                 name='search'
                 type='text'
+                placeholder='single word search only e.g female OR North-West'
                 className={
                   'form-control' +
                   (errors.search && touched.search ? ' is-invalid' : '')
