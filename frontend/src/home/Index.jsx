@@ -181,6 +181,7 @@ function Home({ match }) {
           </thead>
           <tbody>
             {users &&
+              user.picture_1 &&
               users.map((user) => (
                 <tr key={user.id}>
                   <td style={{ whiteSpace: 'nowrap' }}>

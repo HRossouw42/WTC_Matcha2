@@ -9,15 +9,47 @@ import { accountService, alertService } from '@/_services';
 
 function UsersList({ match }) {
   const { path } = match;
+
+  const initialViewer = {
+    first_name: '',
+    last_name: '',
+    id: '',
+    age: '',
+    email: '',
+    fame: '',
+    gender: '',
+    preference: '',
+    picture_1: '',
+    picture_2: '',
+    picture_3: '',
+    picture_4: '',
+    picture_5: '',
+    smoking: '',
+    drinking: '',
+    religion: '',
+    pets: '',
+    children: '',
+    bio: '',
+  };
+
   //backend data
   const [users, setUsers] = useState(null);
+  const [viewer, setViewer] = useState(initialViewer);
 
   //sorting
-  // const [items, requestSort] = useSortableData(null);
   let sortDirection = 'ascending';
   const [sortedField, setSortedField] = useState(sortDirection);
 
   useEffect(() => {
+    async function fetchData() {
+      let userValues = await accountService.userValue;
+      accountService.getById(userValues.id).then((data) => {
+        setViewer(data);
+      });
+    }
+
+    fetchData();
+
     accountService
       .getAll()
       .then((data) => {
@@ -144,7 +176,6 @@ function UsersList({ match }) {
 
   return (
     <div>
-      <p>Sexy Singles in Your AREA!</p>
       <div className='form-group'>
         <Formik
           initialValues={initialValues}
@@ -154,6 +185,11 @@ function UsersList({ match }) {
           {({ errors, touched, isSubmitting }) => (
             <Form>
               <h1>Search</h1>
+              <p>
+                {viewer.picture_1
+                  ? 'Sexy Singles in Your AREA!'
+                  : 'Please fill out your profile for us, including a profile picture.'}
+              </p>
               <Field
                 name='search'
                 type='text'
@@ -252,12 +288,14 @@ function UsersList({ match }) {
             users.map((user) => (
               <tr key={user.id}>
                 <td style={{ whiteSpace: 'nowrap' }}>
-                  <Link
-                    to={`${path}/view/${user.id}`}
-                    className='btn btn-sm btn-info mr-1'
-                  >
-                    View
-                  </Link>
+                  {viewer.picture_1 && (
+                    <Link
+                      to={`${path}/view/${user.id}`}
+                      className='btn btn-sm btn-info mr-1'
+                    >
+                      View
+                    </Link>
+                  )}
                 </td>
                 <td>
                   {user.first_name} {user.last_name}

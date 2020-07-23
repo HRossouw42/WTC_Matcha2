@@ -58,6 +58,7 @@ function publicProfile({ history, match }) {
     );
   }
 
+
   return (
     <div>
       <div>
