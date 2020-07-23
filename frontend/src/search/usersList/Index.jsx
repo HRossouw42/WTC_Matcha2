@@ -53,30 +53,44 @@ function UsersList({ match }) {
 
   function onSearch(fields, { setStatus, setSubmitting }) {
     setStatus();
-    const query = fields.search;
+    const query = fields.search.toLowerCase();
+    const tags = query.split(' ');
 
     const searchedUsers = [];
     if (query == '' || !query.length) {
       onResetUsers();
     } else {
       resetUsers.map((user) => {
-        if (
-          user.first_name === query ||
-          user.last_name === query ||
-          user.gender === query ||
-          user.location === query ||
-          user.age === query
+        if (tags[0] == 'age') {
+          if (
+            Number(user.age) >= Number(tags[1]) &&
+            Number(user.age) <= Number(tags[2])
+          ) {
+            searchedUsers.push(user);
+          }
+        } else if (tags[0] == 'fame') {
+          if (
+            Number(user.likes) >= Number(tags[1]) &&
+            Number(user.likes) <= Number(tags[2])
+          ) {
+            searchedUsers.push(user);
+          }
+        } else if (
+          user.first_name.toLowerCase() === query ||
+          user.last_name.toLowerCase() === query ||
+          user.gender.toLowerCase() === query ||
+          user.location.toLowerCase() === query
         ) {
           searchedUsers.push(user);
-        } else if (query === 'smoking' && user.smoking === 'Yes') {
+        } else if (query === 'smoking' && user.smoking) {
           searchedUsers.push(user);
-        } else if (query === 'drinking' && user.drinking === 'Yes') {
+        } else if (query === 'drinking' && user.drinking) {
           searchedUsers.push(user);
-        } else if (query === 'religion' && user.religion === 'Yes') {
+        } else if (query === 'religion' && user.religion) {
           searchedUsers.push(user);
-        } else if (query === 'pets' && user.pets === 'Yes') {
+        } else if (query === 'pets' && user.pets) {
           searchedUsers.push(user);
-        } else if (query === 'children' && user.children === 'Yes') {
+        } else if (query === 'children' && user.children) {
           searchedUsers.push(user);
         }
       }, query);
@@ -143,7 +157,7 @@ function UsersList({ match }) {
               <Field
                 name='search'
                 type='text'
-                placeholder='single word search only e.g female OR North-West'
+                placeholder='single word search: female | ranges: age 18 50 | tags: drinking'
                 className={
                   'form-control' +
                   (errors.search && touched.search ? ' is-invalid' : '')
