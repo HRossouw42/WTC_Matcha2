@@ -27,7 +27,7 @@ function Details({ match }) {
     religion: '',
     pets: '',
     children: '',
-    bio: ''
+    bio: '',
   };
 
   const userStart = accountService.userValue;
@@ -81,17 +81,19 @@ function Details({ match }) {
         {user.bio}
       </p>
       <div>
-        <Link to={`${path}/update`}>Update Profile</Link>
+        <Link className='btn btn-warning' to={`${path}/update`}>
+          Update Profile
+        </Link>
         <div className='w-50 mx-auto'>
           {/* <Link to={`${path}/image`}>Update Photos</Link> */}
           <Carousel autoPlay>
             <div>
-              <img alt='' src= {user.picture_1}/>
+              <img alt='' src={user.picture_1} />
               <p className='legend'>Profile Pic</p>
             </div>
             <div>
               <img alt='' src={user.picture_2} />
-              </div>
+            </div>
             <div>
               <img alt='' src={user.picture_3} />
             </div>

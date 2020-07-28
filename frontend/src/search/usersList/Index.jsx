@@ -71,6 +71,7 @@ function UsersList({ match }) {
             children: obj.children,
           };
         });
+        compiledData.shift(); //remove admin
         setUsers(compiledData);
         setResetUsers(compiledData);
       })
