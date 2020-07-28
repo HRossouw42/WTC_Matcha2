@@ -91,11 +91,11 @@ function publicProfile({ history, match }) {
           <br />
           <strong>Children: </strong> {user.children ? 'Yes' : 'No'}
           <br />
-          <p>
+        </p>
+        <p>
         <strong>Online: </strong> {user.currently_online ? 'Yes' : 'No'}
         <br />
         <strong>Last Online: </strong> {user.last_online}
-        </p>
         </p>
         <p>
           <strong>Bio: </strong>
