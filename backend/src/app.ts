@@ -1,6 +1,7 @@
 import * as RegisterController from './controllers/registerController'
 import * as ProfileController from './controllers/profileController'
 import * as LoginController from './controllers/loginController'
+import * as LogoutController from './controllers/logoutController'
 import * as UserController from './controllers/userController'
 import Router from 'koa-router'
 
@@ -13,9 +14,11 @@ router.post('/reset', UserController.reset)
 
 // Private routes
 router.post('/login', LoginController.create)
+router.post('/logout', LogoutController.create)
 router.post('/profile', ProfileController.update)
 router.delete('/blocked', UserController.create)
 router.get('/users', UserController.all)
 router.get('/getById/:id', UserController.id)
+router.post('/update-email', ProfileController.updateEmail)
 
 export default router

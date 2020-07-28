@@ -20,6 +20,14 @@ exports.seed = async function(knex, Promise) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  function dateTime(){
+    var today = new Date();
+
+    var date = today.getFullYear()+'-'+(getRandomInt(1, 7))+'-'+getRandomInt(1, 28);
+    var time = getRandomInt(0, 23) + ":" + getRandomInt(10, 59) + ":" + getRandomInt(10, 59);
+    return (date+' '+time)
+  }
+
   const genderSelect = ['male', 'female', 'nonbinary']
   const preferenceSelect = ['any', 'male', 'female']
   const locationSelect = ['Eastern Cape', 'Free State', 'Gauteng', 'KwaZulu-Natal', 'Limpopo', 'Mpumalanga', 'Northern Cape', 'North-West', 'Western Cape', 'Other']
@@ -47,6 +55,7 @@ exports.seed = async function(knex, Promise) {
       let pets = faker.random.boolean()
       let children = faker.random.boolean()
       let complete = 1
+      let last_online = dateTime()
     
       profile.push({
         user_email: user_email,
@@ -66,7 +75,8 @@ exports.seed = async function(knex, Promise) {
         religion: religion,
         pets: pets,
         children: children,
-        complete: complete
+        complete: complete,
+        last_online: last_online
       })
     }
       return profile

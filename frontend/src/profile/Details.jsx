@@ -27,7 +27,7 @@ function Details({ match }) {
     religion: '',
     pets: '',
     children: '',
-    bio: '',
+    bio: ''
   };
 
   const userStart = accountService.userValue;
@@ -43,8 +43,6 @@ function Details({ match }) {
 
     fetchData();
   }, []);
-
-  // TODO: send props to Carousel for images
 
   return (
     <div>
