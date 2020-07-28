@@ -109,7 +109,6 @@ function Update({ history }) {
       .min(18)
       .max(100)
       .required('Age is required to be a number'),
-    email: Yup.string().email('Email is invalid').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: Yup.string()
       .when('password', (password, schema) => {
@@ -262,23 +261,6 @@ function Update({ history }) {
             />
             <ErrorMessage
               name='username'
-              component='div'
-              className='invalid-feedback'
-            />
-          </div>
-          {/* Email */}
-          <div className='form-group'>
-            <label>Email</label>
-            <Field
-              name='email'
-              type='text'
-              className={
-                'form-control' +
-                (errors.email && touched.email ? ' is-invalid' : '')
-              }
-            />
-            <ErrorMessage
-              name='email'
               component='div'
               className='invalid-feedback'
             />
