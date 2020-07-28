@@ -155,7 +155,8 @@ function Update({ history }) {
     setIsLocation(true);
     if (area != null) {
       alertService.info(
-        `We suggest you set your area's location to ~${area}~ for best results!`
+        `We suggest you set your area's location to ~${area}~ for best results!`,
+        { autoClose: false }
       );
     }
   }

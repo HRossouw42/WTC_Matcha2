@@ -14,8 +14,10 @@ function Home({ match }) {
 
   //backend data
   const [users, setUsers] = useState(null);
-  let male = 'male';
-  let female = 'female';
+  const initialHistory = {
+    id: 'test@test.com',
+  };
+  const [history, setHistory] = useState(initialHistory);
 
   //sorting
   // const [items, requestSort] = useSortableData(null);
@@ -28,15 +30,24 @@ function Home({ match }) {
       accountService.getById(userValues.id).then((data) => {
         setUser(data);
         getSuggestions(data);
+        setHistory(data.like_history);
+        // updateNotifications(history);
       });
+    }
+
+    async function updateNotifications(history) {
+      if (history) {
+        alertService.info(`You got a like from ${history.id}!`, {
+          autoClose: true,
+        });
+      }
+      setTimeout(updateNotifications, 5000);
     }
 
     function getSuggestions(userValue) {
       accountService
         .getAll()
         .then((data) => {
-          //TODO: take into account homo/hetero before loading data
-          //TODO: take into account user location
           const compiledData = [];
           let count = 0;
 
