@@ -98,6 +98,9 @@ function publicProfile({ history, match }) {
         <strong>Last Online: </strong> {user.last_online}
         </p>
         <p>
+        <strong>Fame: </strong> {user.likes}
+        </p>
+        <p>
           <strong>Bio: </strong>
           <br />
           {user.bio}
