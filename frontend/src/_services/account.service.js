@@ -13,6 +13,7 @@ export const accountService = {
   resetPassword,
   getAll,
   getById,
+  updateEmail,
   update,
   delete: _delete,
   user: userSubject.asObservable(),
@@ -41,7 +42,8 @@ async function login(params) {
   }
 }
 
-function logout() {
+async function logout(email) {
+  await ky.post('http://localhost:3000/logout', { body: email });
   userSubject.next(null);
   history.push('/account/login');
 }
@@ -64,6 +66,10 @@ async function getAll() {
   return await ky
     .get('http://localhost:3000/users')
     .then((resp) => resp.json());
+}
+
+async function updateEmail(email, token) {
+  return await ky.post('http://localhost:3000/update-email', { json: { email, token }});
 }
 
 async function getById(id) {

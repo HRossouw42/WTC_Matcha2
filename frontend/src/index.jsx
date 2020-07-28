@@ -8,13 +8,6 @@ import { App } from './app';
 import './styles.less';
 import 'regenerator-runtime/runtime'
 
-// setup fake backend
-// import { configureFakeBackend } from './_helpers';
-// configureFakeBackend();
-
-// attempt silent token refresh before startup
-// accountService.refreshToken().finally(startApp);
-
 function startApp() { 
     render(
         <Router history={history}>

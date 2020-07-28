@@ -30,10 +30,13 @@ function Nav() {
               Admin
             </NavLink>
           )}
+          <NavLink to='/settings' className='nav-item nav-link'>
+            Settings
+          </NavLink>
           <NavLink to='/search' className='nav-item nav-link'>
             Search
           </NavLink>
-          <a onClick={accountService.logout} className='nav-item nav-link'>
+          <a onClick={() => accountService.logout(user.email)} className='nav-item nav-link'>
             Logout
           </a>
         </div>

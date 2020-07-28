@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import { user } from '../models/user'
 import jwt from 'jsonwebtoken'
+import { setOnline } from '../models/profile'
 
 const secret = 'secret'
 
@@ -21,6 +22,14 @@ export async function create (ctx: any){
     const passwordValid = await bcrypt.compare(password, User.password)
 
     if (passwordValid){
+
+        const today = new Date()
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+        const dateTime = date+' '+time
+
+        await setOnline(email, dateTime)
+
         const token = jwt.sign({
             id: User.id,
             email: User.email,

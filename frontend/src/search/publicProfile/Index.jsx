@@ -90,6 +90,12 @@ function publicProfile({ history, match }) {
           {user.pets ? 'Yes' : 'No'}
           <br />
           <strong>Children: </strong> {user.children ? 'Yes' : 'No'}
+          <br />
+          <p>
+        <strong>Online: </strong> {user.currently_online ? 'Yes' : 'No'}
+        <br />
+        <strong>Last Online: </strong> {user.last_online}
+        </p>
         </p>
         <p>
           <strong>Bio: </strong>

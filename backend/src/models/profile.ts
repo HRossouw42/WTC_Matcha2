@@ -102,3 +102,63 @@ export async function Profile (profile: any): Promise<boolean>{
         return false
     }
 }
+
+export async function setOnline(email: string, date: string): Promise<boolean>{
+    try{
+    
+        db.run(`UPDATE user_profile\
+            SET last_online = (?)\
+            WHERE user_email = (?)`,
+            date, email)
+
+        db.run(`UPDATE user_profile\
+        SET currently_online = 1\
+        WHERE user_email = (?)`,
+        email)
+    
+        return true
+      }
+      catch(error){
+        return false
+      }
+}
+
+export async function setOffline(email: string, date: string): Promise<boolean>{
+    try{
+    
+        db.run(`UPDATE user_profile\
+            SET last_online = (?)\
+            WHERE user_email = (?)`,
+            date, email)
+
+        db.run(`UPDATE user_profile\
+        SET currently_online = 0\
+        WHERE user_email = (?)`,
+        email)
+    
+        return true
+      }
+      catch(error){
+        return false
+      }
+}
+
+export async function setEmail(oldEmail: string, newEmail: string): Promise<boolean>{
+    try{
+    
+        db.run(`UPDATE user_profile\
+            SET user_email = (?)\
+            WHERE user_email = (?)`,
+            newEmail, oldEmail)
+
+        db.run(`UPDATE users\
+        SET email = (?)\
+        WHERE email = (?)`,
+        newEmail, oldEmail)
+    
+        return true
+      }
+      catch(error){
+        return false
+      }
+}

@@ -1,4 +1,4 @@
-import { Profile } from '../models/profile'
+import { Profile, setEmail } from '../models/profile'
 import { user } from '../models/user'
 import jwt from 'jsonwebtoken'
 
@@ -30,6 +30,24 @@ export async function update (ctx: any){
         }
 
         Profile(profile)
+        return ctx.status = 200
+    } catch (e){
+        return ctx.status = 400
+    }
+}
+
+export async function updateEmail (ctx: any){
+    try{
+        const valid: any = jwt.verify(ctx.request.body.token, 'secret')
+        const oldEmail = valid.email
+        const newEmail = ctx.request.body.email
+
+        const exists = await user(ctx.request.body.email)
+        if (exists) {
+            return ctx.status = 400
+        }
+        await setEmail(oldEmail, newEmail)
+    
         return ctx.status = 200
     } catch (e){
         console.log(e)

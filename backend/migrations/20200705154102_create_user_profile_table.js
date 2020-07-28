@@ -20,6 +20,8 @@ exports.up = function (knex) {
         table.boolean('pets').defaultTo(0)
         table.boolean('children').defaultTo(0)
         table.boolean('complete').defaultTo(0)
+        table.string('last_online')
+        table.boolean('currently_online').defaultTo(0)
       })
   }
   

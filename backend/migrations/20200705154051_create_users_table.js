@@ -7,7 +7,6 @@ exports.up = function (knex) {
         table.string('password')
         table.string('first_name')
         table.string('last_name')
-        table.string('last_online')
         table.string('role').defaultTo('user')
         table.boolean('confirmed').defaultTo(0)
       })
