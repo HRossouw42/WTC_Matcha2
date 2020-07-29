@@ -50,10 +50,6 @@ function publicProfile({ history, match }) {
     if (blocked){
       accountService.blocked(user.email)
     }
-    
-    // alertService.error(
-    //   'Thank you for your report. Our admins will look into the matter and respond accordingly.')
-    //accountservice.block
   }
   function onUnblock() {
     setIsBlocked(false);
@@ -105,9 +101,9 @@ function publicProfile({ history, match }) {
           <br />
         </p>
         <p>
-        <strong>Online: </strong> {user.currently_online ? 'Yes' : 'No'}
-        <br />
-        <strong>Last Online: </strong> {user.last_online}
+        {user.currently_online ?
+        (<span><strong>Online: </strong> {user.currently_online ? 'Yes' : 'No'}</span>) :
+        (<span><strong>Last Online: </strong> {user.last_online}</span>)}
         </p>
         <p>
         <strong>Fame: </strong> {user.likes}
