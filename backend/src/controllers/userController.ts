@@ -1,4 +1,4 @@
-import { destroy, user, users, everything, single, updateLikeHistory, updateViewHistory } from '../models/user'
+import { destroy, user, users, everything, single, updateLikeHistory, updateViewHistory, unliked } from '../models/user'
 import jwt from 'jsonwebtoken'
 import { db } from '../index'
 import { transporter } from '../index'
@@ -105,6 +105,20 @@ export async function liked (ctx: any){
     try{
         const {id, email} = ctx.request.body
         const success = updateLikeHistory(id, email)
+
+        if (success){
+            ctx.status = 200
+        }
+        
+    } catch(e){
+        ctx.status = 400
+    }
+}
+
+export async function unlike (ctx: any){
+    try{
+        const {id, email} = ctx.request.body
+        const success = unliked(id, email)
 
         if (success){
             ctx.status = 200

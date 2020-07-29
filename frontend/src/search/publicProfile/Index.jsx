@@ -36,6 +36,7 @@ function publicProfile({ history, match }) {
   }
   function onDislike() {
     setIsLiked(false);
+    accountService.unlike(viewer.id, user.email)
   }
 
   // Block Button
