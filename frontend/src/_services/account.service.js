@@ -15,7 +15,10 @@ export const accountService = {
   getById,
   updateEmail,
   update,
-  delete: _delete,
+  blocked,
+  liked,
+  viewed,
+  // delete: _delete,
   user: userSubject.asObservable(),
   get userValue() {
     return userSubject.value;
@@ -118,12 +121,15 @@ async function update(params) {
   }
 }
 
-function _delete(id) {
-  return fetchWrapper.delete(`${baseUrl}/${id}`).then((x) => {
-    // auto logout if the logged in user deleted their own record
-    if (id === userSubject.value.id) {
-      logout();
-    }
-    return x;
-  });
+async function blocked(email) {
+  await ky.post('http://localhost:3000/blocked', { body: email })
+  history.push('/')
+}
+
+async function liked(id, email) {
+  return await ky.post('http://localhost:3000/liked', { json: { id, email }})
+}
+
+async function viewed(id, email) {
+  return await ky.post('http://localhost:3000/viewed', { json: { id, email }})
 }

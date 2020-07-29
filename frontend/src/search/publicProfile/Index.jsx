@@ -25,12 +25,14 @@ function publicProfile({ history, match }) {
     });
   }, []);
 
+  accountService.viewed(viewer.id, user.email)
+
   // Like Button
   //TODO: connect like with backend
   const [isLiked, setIsLiked] = useState(false);
   function onLike() {
     setIsLiked(true);
-    //accountservice.Like
+    accountService.liked(viewer.id, user.email)
   }
   function onDislike() {
     setIsLiked(false);
@@ -41,7 +43,13 @@ function publicProfile({ history, match }) {
   const [isBlocked, setIsBlocked] = useState(false);
   function onBlock() {
     setIsBlocked(true);
-    //accountservice.block
+    function confirm (){
+      return window.confirm("Are you sure you want to block this user? This action cannot be undone.")
+    }
+    const blocked = confirm()
+    if (blocked){
+      accountService.blocked(user.email)
+    }
   }
   function onUnblock() {
     setIsBlocked(false);
@@ -93,9 +101,9 @@ function publicProfile({ history, match }) {
           <br />
         </p>
         <p>
-        <strong>Online: </strong> {user.currently_online ? 'Yes' : 'No'}
-        <br />
-        <strong>Last Online: </strong> {user.last_online}
+        {user.currently_online ?
+        (<span><strong>Online: </strong> {user.currently_online ? 'Yes' : 'No'}</span>) :
+        (<span><strong>Last Online: </strong> {user.last_online}</span>)}
         </p>
         <p>
         <strong>Fame: </strong> {user.likes}
@@ -149,13 +157,13 @@ function publicProfile({ history, match }) {
           className='btn btn-secondary'
           style={{ width: '75 px' }}
         >
-          {isBlocked ? (
+          {/* {isBlocked ? (
             <span className='btn-disable' onClick={() => onUnblock()}>
               Unblock ⏺
             </span>
-          ) : (
+          ) : ( */}
             <span onClick={() => onBlock()}>Block ⏹</span>
-          )}
+          {/* )} */}
         </button>
       </div>
       <div>

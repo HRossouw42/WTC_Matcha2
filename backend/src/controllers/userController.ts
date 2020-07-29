@@ -1,18 +1,21 @@
-import { destroy, user, users, everything, single } from '../models/user'
+import { destroy, user, users, everything, single, updateLikeHistory, updateViewHistory } from '../models/user'
 import jwt from 'jsonwebtoken'
 import { db } from '../index'
 import { transporter } from '../index'
 import bcrypt from 'bcrypt'
 
 export async function create (ctx: any){
-    
-    const { email } = ctx.request.body
-    const deleted = destroy(email)
+    try{
+        const email = ctx.request.body
+        const deleted = destroy(email)
 
-    if (deleted) {
-        ctx.status = 200
-    }
-    else{
+        if (deleted) {
+            ctx.status = 200
+        }
+        else{
+            ctx.status = 400
+        }
+    } catch(e){
         ctx.status = 400
     }
 }
@@ -31,7 +34,6 @@ export async function verify (ctx: any){
 
         ctx.status = 200  //set redirect
     } catch(e){
-        console.log(e)
         ctx.status = 400
     }
 }
@@ -52,7 +54,6 @@ export async function forgot (ctx: any){
         }
         ctx.status = 200  //set redirect
     } catch(e){
-        console.log(e)
         ctx.status = 400
     }
 }
@@ -75,7 +76,6 @@ export async function reset (ctx: any){
 
         ctx.status = 200  //set redirect
     } catch(e){
-        console.log(e)
         ctx.status = 400
     }
 }
@@ -86,7 +86,6 @@ export async function all (ctx: any){
         ctx.body = all
         ctx.status = 200
     } catch(e){
-        console.log(e)
         ctx.status = 400
     }
 }
@@ -98,7 +97,34 @@ export async function id (ctx: any){
         ctx.body = all
         ctx.status = 200
     } catch(e){
-        console.log(e)
+        ctx.status = 400
+    }
+}
+
+export async function liked (ctx: any){
+    try{
+        const {id, email} = ctx.request.body
+        const success = updateLikeHistory(id, email)
+
+        if (success){
+            ctx.status = 200
+        }
+        
+    } catch(e){
+        ctx.status = 400
+    }
+}
+
+export async function viewed (ctx: any){
+    try{
+        const {id, email} = ctx.request.body
+        const success = updateViewHistory(id, email)
+
+        if (success){
+            ctx.status = 200
+        }
+        
+    } catch(e){
         ctx.status = 400
     }
 }
