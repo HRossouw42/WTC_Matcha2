@@ -18,6 +18,7 @@ export const accountService = {
   blocked,
   liked,
   viewed,
+  unlike,
   // delete: _delete,
   user: userSubject.asObservable(),
   get userValue() {
@@ -128,6 +129,10 @@ async function blocked(email) {
 
 async function liked(id, email) {
   return await ky.post('http://localhost:3000/liked', { json: { id, email }})
+}
+
+async function unlike(id, email) {
+  return await ky.post('http://localhost:3000/unlike', { json: { id, email }})
 }
 
 async function viewed(id, email) {

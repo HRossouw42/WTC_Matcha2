@@ -85,8 +85,54 @@ export async function updateLikeHistory(id: number, user_email: string): Promise
     } else {
       like_history = []
     }
-    like_history.push(id)
-    like_history = like_history.toString()
+
+    if (!like_history.includes(id.toString())){
+
+      like_history.push(id)
+      like_history = like_history.toString()
+  
+      db.run(`UPDATE user_profile\
+      SET like_history = (?)\
+      WHERE user_email = (?)`,
+      like_history, user_email)
+
+      db.run(`UPDATE user_profile\
+      SET likes = (?)\
+      WHERE user_email = (?)`,
+      likes, user_email)
+
+    }
+  
+      return true
+    }
+    catch(error){
+      return false
+    }
+}
+
+export async function unliked(id: number, user_email: string): Promise<boolean>{
+  try{
+    const User = await singleByEmail(user_email)
+          
+    let like_history
+    let likes = User.likes
+
+    likes = parseInt(likes) - 1
+
+    function removeItemOnce(arr, value) {
+      var index = arr.indexOf(value);
+      if (index > -1) {
+        arr.splice(index, 1);
+      }
+      return arr
+    }
+    like_history = User.like_history.split(",")
+    like_history = removeItemOnce(like_history, id.toString())
+    if (like_history && like_history.length){
+      like_history = like_history.toString()
+    }else{
+      like_history = null;
+    }
 
       db.run(`UPDATE user_profile\
       SET like_history = (?)\
@@ -104,6 +150,8 @@ export async function updateLikeHistory(id: number, user_email: string): Promise
       return false
     }
 }
+
+
 
 export async function updateViewHistory(id: number, user_email: string): Promise<boolean>{
   try{
