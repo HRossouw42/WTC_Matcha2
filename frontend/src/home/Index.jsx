@@ -14,10 +14,7 @@ function Home({ match }) {
 
   //backend data
   const [users, setUsers] = useState(null);
-  const initialHistory = {
-    id: 'test@test.com',
-  };
-  const [history, setHistory] = useState(initialHistory);
+  const [likeHistory, setLikeHistory] = useState('');
 
   //sorting
   // const [items, requestSort] = useSortableData(null);
@@ -25,23 +22,51 @@ function Home({ match }) {
   const [sortedField, setSortedField] = useState(sortDirection);
 
   useEffect(() => {
+    let oldLikes = '';
+    let oldViews = '';
+
+    let isMounted = true;
+
     async function fetchData() {
       let userValues = await accountService.userValue;
       accountService.getById(userValues.id).then((data) => {
-        setUser(data);
-        getSuggestions(data);
-        setHistory(data.like_history);
-        updateNotifications(history);
+        if (isMounted) {
+          setUser(data);
+          getSuggestions(data);
+        }
+        updateNotifications(data.like_history, data.view_history);
+        setTimeout(fetchData, 5000);
       });
     }
 
-    async function updateNotifications(history) {
-      if (history) {
-        alertService.info(`You got a like from user ${history.id}!`, {
-          autoClose: true,
-        });
+    async function updateNotifications(newLikes, newViews) {
+      if (oldLikes != newLikes) {
+        oldLikes = newLikes;
+        if (oldLikes != null) {
+          let likesArray = oldLikes.split(',');
+          let index = likesArray.slice(-1);
+          const userName = accountService.getById(index).then((data) => {
+            alertService.info(`You got a like from user ${data.first_name}!`, {
+              autoClose: false,
+            });
+          });
+        }
       }
-      setTimeout(updateNotifications, 5000);
+      if (oldViews != newViews) {
+        oldViews = newViews;
+        if (oldViews != null) {
+          let viewsArray = oldViews.split(',');
+          let index = viewsArray.slice(-1);
+          const userName = accountService.getById(index).then((data) => {
+            alertService.info(
+              `You got checked out from user ${data.first_name}!`,
+              {
+                autoClose: false,
+              }
+            );
+          });
+        }
+      }
     }
 
     function getSuggestions(userValue) {
@@ -88,8 +113,10 @@ function Home({ match }) {
           alertService.error(error);
         });
     }
-
     fetchData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const initialValues = {
