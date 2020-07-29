@@ -25,12 +25,14 @@ function publicProfile({ history, match }) {
     });
   }, []);
 
+  accountService.viewed(viewer.id, user.email)
+
   // Like Button
   //TODO: connect like with backend
   const [isLiked, setIsLiked] = useState(false);
   function onLike() {
     setIsLiked(true);
-    //accountservice.Like
+    accountService.liked(viewer.id, user.email)
   }
   function onDislike() {
     setIsLiked(false);
@@ -41,6 +43,16 @@ function publicProfile({ history, match }) {
   const [isBlocked, setIsBlocked] = useState(false);
   function onBlock() {
     setIsBlocked(true);
+    function confirm (){
+      return window.confirm("Are you sure you want to block this user? This action cannot be undone.")
+    }
+    const blocked = confirm()
+    if (blocked){
+      accountService.blocked(user.email)
+    }
+    
+    // alertService.error(
+    //   'Thank you for your report. Our admins will look into the matter and respond accordingly.')
     //accountservice.block
   }
   function onUnblock() {
@@ -149,13 +161,13 @@ function publicProfile({ history, match }) {
           className='btn btn-secondary'
           style={{ width: '75 px' }}
         >
-          {isBlocked ? (
+          {/* {isBlocked ? (
             <span className='btn-disable' onClick={() => onUnblock()}>
               Unblock ⏺
             </span>
-          ) : (
+          ) : ( */}
             <span onClick={() => onBlock()}>Block ⏹</span>
-          )}
+          {/* )} */}
         </button>
       </div>
       <div>

@@ -1,4 +1,4 @@
-import { knex } from '../index'
+import { knex, db } from '../index'
 
 export async function user (email: string):Promise<any> {
     return knex.select('*')
@@ -30,6 +30,17 @@ export async function single(id: number):Promise<any> {
           })
 }
 
+export async function singleByEmail(email: string):Promise<any> {
+  return knex('users')
+          .where('email', email)
+          .join('user_profile', 'email', '=', 'user_email')
+          .select('*')
+          .then(function (result: any) {
+            result = result[0]
+            return(result)
+          })
+}
+
 export async function users ():Promise<any> {
   return knex.select('email')
           .from('users')
@@ -48,11 +59,74 @@ export async function first_name (email: string):Promise<string> {
           })
 }
 
-export async function destroy (email: string):Promise<boolean> {
-  return knex('users')
-          .where('email', email)
-          .del()
-          .then(function () {
-            return(true)
-          })
+export async function destroy (email: string):Promise<boolean>{
+  try{
+    
+    db.run(`DELETE FROM users WHERE email=?`, email)
+    db.run(`DELETE FROM user_profile WHERE user_email=?`, email)
+
+    return true
+  } catch(e){
+    return false
+  }
+}
+
+export async function updateLikeHistory(id: number, user_email: string): Promise<boolean>{
+  try{
+    const User = await singleByEmail(user_email)
+          
+    let like_history
+    let likes = User.likes
+
+    likes = parseInt(likes) + 1
+    
+    if (User.like_history){
+      like_history = User.like_history.split(",")
+    } else {
+      like_history = []
+    }
+    like_history.push(id)
+    like_history = like_history.toString()
+
+      db.run(`UPDATE user_profile\
+      SET like_history = (?)\
+      WHERE user_email = (?)`,
+      like_history, user_email)
+
+      db.run(`UPDATE user_profile\
+      SET likes = (?)\
+      WHERE user_email = (?)`,
+      likes, user_email)
+  
+      return true
+    }
+    catch(error){
+      return false
+    }
+}
+
+export async function updateViewHistory(id: number, user_email: string): Promise<boolean>{
+  try{
+    const User = await singleByEmail(user_email)
+          
+    let view_history
+    
+    if (User.like_history){
+      view_history = User.like_history.split(",")
+    } else {
+      view_history = []
+    }
+    view_history.push(id)
+    view_history = view_history.toString()
+
+      db.run(`UPDATE user_profile\
+      SET view_history = (?)\
+      WHERE user_email = (?)`,
+      view_history, user_email)
+  
+      return true
+    }
+    catch(error){
+      return false
+    }
 }
