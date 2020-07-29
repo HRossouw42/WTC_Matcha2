@@ -31,13 +31,13 @@ function Home({ match }) {
         setUser(data);
         getSuggestions(data);
         setHistory(data.like_history);
-        // updateNotifications(history);
+        updateNotifications(history);
       });
     }
 
     async function updateNotifications(history) {
       if (history) {
-        alertService.info(`You got a like from ${history.id}!`, {
+        alertService.info(`You got a like from user ${history.id}!`, {
           autoClose: true,
         });
       }

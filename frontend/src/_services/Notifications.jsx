@@ -27,6 +27,7 @@ function Notifications({ match }) {
     children: '',
     bio: '',
     like_history: '',
+    view_history: '',
   };
 
   const initialLikeHistory = {};
