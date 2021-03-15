@@ -41,5 +41,20 @@ React, Bootstrap & modern Javascript
 
 --- 
 
+# Examples
+
+Register Page
+![Register Page](https://github.com/HRossouw42/WTC_Matcha2/blob/master/image_register.jpg)
+
+Example Profile
+![Example Profile](https://github.com/HRossouw42/WTC_Matcha2/blob/master/image_publicProfile.jpg)
+
+Matches based on your profile and IP/GPS location
+![Matches](https://github.com/HRossouw42/WTC_Matcha2/blob/master/image_matches.jpg)
+
+Extensive search capabilities 
+![Search](https://github.com/HRossouw42/WTC_Matcha2/blob/master/image_search.jpg)
+
+
 *To my fellow WTCoders:
 Warning contains 🐞🐞🐞. Copy paste at your own peril. Or just learn React & Node.js, they're kinda great!*
